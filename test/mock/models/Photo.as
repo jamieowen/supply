@@ -26,6 +26,7 @@ package mock.models {
 			return "[ Photo( title :" + title + 
 							", author :" + author + 
 							", lens :" + lens + 
+							", published :" + published + 
 							", focalRatio:" + focalRatio + ") ]";
 		}
 	}

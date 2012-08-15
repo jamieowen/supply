@@ -15,7 +15,13 @@ package supply.queries.matchers {
 		{
 			if( ( model as Object ).hasOwnProperty(property) )
 			{
-				return model[property] === value;
+				if( model[property] is Date && value is Date ){
+					var d1:Date = model[property];
+					var d2:Date = value;
+					
+					return d1.time === d2.time;
+				}else
+					return model[property] === value;
 			}else
 				return false;			
 		}

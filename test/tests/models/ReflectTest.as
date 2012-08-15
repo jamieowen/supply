@@ -10,8 +10,8 @@ package tests.models {
 	import supply.api.IModel;
 	import supply.errors.ReflectionError;
 	import supply.reflect.ReflectProperty;
-	import supply.reflect.reflectModelClass;
-	import supply.reflect.reflectModelInstance;
+	import supply.reflect.reflectPropertiesFromModelClass;
+	import supply.reflect.reflectPropertiesFromModelInstance;
 
 	import org.flexunit.asserts.assertEquals;
 	import org.hamcrest.Matcher;
@@ -43,7 +43,7 @@ package tests.models {
 		{
 			expected_props = expected_props.concat.apply( this, getIModelProps() );
 			
-			var properties:Vector.<ReflectProperty> = reflectModelInstance(model);
+			var properties:Vector.<ReflectProperty> = reflectPropertiesFromModelInstance(model);
 			
 			var matchers:Array = [];
 			var exists_matchers:Array = [];
@@ -167,7 +167,7 @@ package tests.models {
 		public function test_noneModel_Reflect():void
 		{
 			var reflect:Function = function():void{
-				 reflectModelClass(Date);
+				 reflectPropertiesFromModelClass(Date);
 			};
 			
 			assertThat( reflect, throws(ReflectionError) );

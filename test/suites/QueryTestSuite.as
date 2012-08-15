@@ -1,7 +1,8 @@
 package suites {
-	import tests.queries.ExecuteQueryFilterAndExcludeTest;
-	import tests.queries.ExecuteQueryExcludeTest;
-	import tests.queries.ExecuteQueryFilterTest;
+	import tests.queries.QueryFilterExcludeDateTest;
+	import tests.queries.QueryFilterAndExcludeTest;
+	import tests.queries.QueryExcludeTest;
+	import tests.queries.QueryFilterTest;
 	import tests.queries.ParsePropertyToMatchersTest;
 	/**
 	 * @author jamieowen
@@ -14,13 +15,16 @@ package suites {
 		public var parsePropertiesToMatchersTest:ParsePropertyToMatchersTest;
 		
 		[Test(order=2)]
-		public var executeQueryFilter:ExecuteQueryFilterTest;
+		public var executeQueryFilter:QueryFilterTest;
 	
 		[Test(order=3)]
-		public var executeQueryExclude:ExecuteQueryExcludeTest;
+		public var executeQueryExclude:QueryExcludeTest;
 
-		[Test(order=3)]
-		public var executeQueryFilterAndExclude:ExecuteQueryFilterAndExcludeTest;
+		[Test(order=4)]
+		public var executeQueryFilterAndExclude:QueryFilterAndExcludeTest;
+
+		[Test(order=5)]
+		public var executeQueryFilterAndExcludeDate:QueryFilterExcludeDateTest;
 
 	}
 }

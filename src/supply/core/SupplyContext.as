@@ -1,6 +1,6 @@
 package supply.core
 {
-	import supply.queries.QueryOptions;
+	import supply.api.IStorage;
 	import supply.queries.Query;
 	import supply.api.IQuery;
 	import avmplus.getQualifiedClassName;
@@ -108,7 +108,7 @@ package supply.core
 			
 		}
 		
-		supply_internals function executeQuery( query:Query, options:QueryOptions ):void
+		public function getStorageForModel(model:Class):IStorage
 		{
 			
 		}
