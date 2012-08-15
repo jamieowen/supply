@@ -21,6 +21,8 @@ package supply.reflect {
 		{
 			_properties = reflectPropertiesFromModelClass(model);
 			
+			
+			
 		}
 	}
 }

@@ -1,4 +1,5 @@
 package runners {
+	import suites.CoreTestSuite;
 	import suites.QueryTestSuite;
 	import suites.ModelTestSuite;
 	/**
@@ -34,7 +35,7 @@ package runners {
 			//var request:Request = Request.methods( someClass, ["method1", "method2", "method3"] ).sortWith( someSorter ).filterWith( someFilter );
 			//core.run( request );
 			
-			core.run(ModelTestSuite, QueryTestSuite);
+			core.run(CoreTestSuite,ModelTestSuite, QueryTestSuite);
 		}
 	}
 }

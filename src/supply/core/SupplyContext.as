@@ -1,9 +1,11 @@
 package supply.core
 {
+	import flash.utils.getQualifiedClassName;
+	import supply.reflect.ReflectModel;
+	import flash.utils.Dictionary;
 	import supply.api.IStorage;
 	import supply.queries.Query;
 	import supply.api.IQuery;
-	import avmplus.getQualifiedClassName;
 	import supply.api.IModel;
 	import supply.errors.ModelDoesNotExist;
 	import supply.errors.RegisterError;
@@ -41,7 +43,7 @@ package supply.core
 		}
 		// ==--
 		
-		private var _models:Vector.<Class>;
+		private var _models:Dictionary;
 		
 		/**
 		 * @param id A unique id to use for this Supply instance if more than one are used in an app.
@@ -51,7 +53,7 @@ package supply.core
 			// singleton test
 			if( !_allowCreate ) throw new SingletonError("There can be only one SupplyContext for now! Use SupplyContext.getInstance()");
 			
-			_models = new Vector.<Class>();
+			_models = new Dictionary();
 		}
 		
 		/**
@@ -66,15 +68,31 @@ package supply.core
 			// validate
 			for each( c in cls ){
 				if ( !isModelClass(c) ) {
-					throw new RegisterError( "Registered models must implement the " + getQualifiedClassName(IModel) + " interface. No models registered." );
+					throw new RegisterError( "Registered models must implement the '" + getQualifiedClassName(IModel) + "' interface. No models registered." );
+				}
+				if( isRegistered(c)){
+					throw new RegisterError("The model '" + getQualifiedClassName(c) + "' has already been registered." ); 
 				}
 			}
 			// register
 			for each( c in cls ){
-				if( !isRegistered(c) ){
-					_models.push(c);
-				}				
+				_models[c] = new ReflectModel(c);
 			}
+		}
+		
+		public function unregisterAll():void
+		{
+			for( var key:Object in _models ){
+				delete _models[key];
+			}
+		}
+		
+		public function unregister( model:Class ):void
+		{
+			if( isRegistered(model) ){
+				delete _models[model];
+			}else
+				throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered." );
 		}
 		
 		/**
@@ -83,10 +101,10 @@ package supply.core
 		 */
 		public function isRegistered( cls:Class ):Boolean
 		{
-			for each( var model:Class in _models ){
-				if( model == cls ) return true;
-			}
-			return false;
+			if( _models[cls] is ReflectModel )
+				return true;
+			else
+				return false;
 		}
 		
 		/**
@@ -110,7 +128,7 @@ package supply.core
 		
 		public function getStorageForModel(model:Class):IStorage
 		{
-			
+			return null;
 		}
 
 	}
