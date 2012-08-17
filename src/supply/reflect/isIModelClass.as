@@ -5,7 +5,7 @@ package supply.reflect {
 	/**
 	 * @author jamieowen
 	 */
-	public function isModelClass(cls:Class) : Boolean
+	public function isIModelClass(cls:Class) : Boolean
 	{
 		var type:XML = describeType(cls);
 		var IModelType:String = getQualifiedClassName(IModel);

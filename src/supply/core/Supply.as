@@ -1,5 +1,5 @@
 package supply.core {
-	import supply.api.IQuery;
+	import supply.api.IModelManager;
 
 	/**
 	 * Shorthand access to the default SupplyContext.
@@ -7,9 +7,9 @@ package supply.core {
 	 * 
 	 * @author jamieowen
 	 */
-	public function Supply(model:Class) : IQuery
+	public function Supply(model:Class) : IModelManager
 	{
-		var context:SupplyContext = SupplyContext.getInstance();
+		var context:SupplyContext = SupplySingleton.getInstance();
 		return context.objects(model);
 	}
 }

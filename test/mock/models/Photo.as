@@ -1,4 +1,8 @@
 package mock.models {
+	import supply.serialization.JSONSerializer;
+	import supply.api.ISerializer;
+	import supply.storage.LocalSharedObjectStorage;
+	import supply.api.IStorage;
 	import supply.base.Model;
 
 	/**
@@ -6,8 +10,8 @@ package mock.models {
 	 */
 	public class Photo extends Model
 	{
-		//public static const storage:IStorage 	= new LSOStorage(Photo);
-		//public static const serialization:Class = JSONSerialization;
+		//public static const storage:IStorage 			 = new LocalSharedObjectStorage();
+		//public static const serialization:ISerialization = new JSONSerialization();
 		
 		public var title:String;
 		public var author:Photographer;

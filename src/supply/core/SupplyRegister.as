@@ -4,7 +4,7 @@ package supply.core {
 	 */
 	public function SupplyRegister(...models) : void
 	{
-		var context:SupplyContext = SupplyContext.getInstance();
+		var context:SupplyContext = SupplySingleton.getInstance();
 		context.register.apply( this, models );
 	}
 }

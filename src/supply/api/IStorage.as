@@ -7,8 +7,8 @@ package supply.api {
 	public interface IStorage
 	{
 		function query( query:Query, options:QueryOptions ):*;
-		function add( model:IModel ):void;
-		function save( model:IModel ):void;
+		function create( model:IModel ):void;
+		function update( model:IModel ):void;
 		function destroy( model:IModel ):void;
 	}
 }

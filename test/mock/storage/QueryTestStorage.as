@@ -14,6 +14,10 @@ package mock.storage {
 	{
 		public var onQuery:Function;
 		
+		public function setModel( model:Class ):void
+		{		
+		}
+		
 		public function query(query : Query, options : QueryOptions) : *
 		{
 			if( onQuery != null ){
@@ -21,10 +25,10 @@ package mock.storage {
 			}
 		}
 
-		public function add(model : IModel) : void {
+		public function create(model : IModel) : void {
 		}
 
-		public function save(model : IModel) : void {
+		public function update(model : IModel) : void {
 		}
 
 		public function destroy(model : IModel) : void {

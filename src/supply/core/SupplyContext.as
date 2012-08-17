@@ -1,16 +1,19 @@
-package supply.core
-{
-	import flash.utils.getQualifiedClassName;
-	import supply.reflect.ReflectModel;
-	import flash.utils.Dictionary;
-	import supply.api.IStorage;
-	import supply.queries.Query;
-	import supply.api.IQuery;
+package supply.core {
+	import supply.serialization.ObjectSerializer;
+	import supply.api.IModelManager;
+	import org.osflash.signals.Signal;
 	import supply.api.IModel;
-	import supply.errors.ModelDoesNotExist;
+	import supply.api.ISerializer;
+	import supply.api.IStorage;
 	import supply.errors.RegisterError;
-	import supply.errors.SingletonError;
-	import supply.reflect.isModelClass;
+	import supply.reflect.isIModelClass;
+	import supply.serialization.JSONSerializer;
+	import supply.storage.LocalSharedObjectStorage;
+
+	import org.swiftsuspenders.Injector;
+
+	import flash.utils.Dictionary;
+	import flash.utils.getQualifiedClassName;
 	
 	
 	
@@ -19,55 +22,37 @@ package supply.core
 	 */
 	public class SupplyContext
 	{
-		// ==--
-		// Initialise as a singleton for now and have only one context.
-		// may look at having multiple contexts later.
-		// having a singleton access allows for a nicer shorthand syntax Supply(Class).filter()... 
-		// and one less step by removing the need to add( ) a model instance to the context. 
-		// This way you just create a model then call model.save()
+		private var __models:Dictionary;
+		private var _contextInjector:Injector;
 		
-		// One option would be to have multiple contexts which operate with only save()
-		// by default. But if a Model class is registered and detected in multiple Contexts,
-		// calling save() without adding manually would throw an error.
-		
-		private static var _instance:SupplyContext;
-		private static var _allowCreate:Boolean = false;
-		public static function getInstance():SupplyContext
-		{
-			if( !_instance ){
-				_allowCreate = true;
-				_instance = new SupplyContext();
-				_allowCreate = false;	
+		private function get _models():Dictionary{
+			if( __models == null ){
+				__models = new Dictionary();
 			}
-			return _instance;
+			return __models;
 		}
-		// ==--
-		
-		private var _models:Dictionary;
 		
 		/**
 		 * @param id A unique id to use for this Supply instance if more than one are used in an app.
 		 */
 		public function SupplyContext()
 		{
-			// singleton test
-			if( !_allowCreate ) throw new SingletonError("There can be only one SupplyContext for now! Use SupplyContext.getInstance()");
+			_contextInjector 	= new Injector();
 			
-			_models = new Dictionary();
+			_contextInjector.map(Injector).toValue(_contextInjector);
+			
+			_contextInjector.map(Class,"Signal").toValue(Signal);
+			_contextInjector.map(Class,"ModelManager").toValue(ModelManager);
+			_contextInjector.map(Class,"Storage").toValue(LocalSharedObjectStorage);
+			_contextInjector.map(Class,"Serializer").toValue(ObjectSerializer);
 		}
 		
-		/**
-		 * Registers an <code>IModel</code> class.
-		 * 
-		 * @param cls The <code>IModel</code> class(s) to register.
-
-		 */
-		public function register(...cls):void
+		public function register(...models):void
 		{
 			var c:Class;
 			// validate
-			for each( c in cls ){
-				if ( !isModelClass(c) ) {
+			for each( c in models ){
+				if ( !isIModelClass(c) ) {
 					throw new RegisterError( "Registered models must implement the '" + getQualifiedClassName(IModel) + "' interface. No models registered." );
 				}
 				if( isRegistered(c)){
@@ -75,61 +60,59 @@ package supply.core
 				}
 			}
 			// register
-			for each( c in cls ){
-				_models[c] = new ReflectModel(c);
+			for each( c in models ){
+				const modelData:ContextModelData = new ContextModelData(c);
+				_contextInjector.injectInto(modelData);
+				modelData.initialise();
+				_models[c] = modelData;
 			}
 		}
 		
-		public function unregisterAll():void
-		{
-			for( var key:Object in _models ){
-				delete _models[key];
-			}
-		}
-		
-		public function unregister( model:Class ):void
+		public function unregister(model:Class):void
 		{
 			if( isRegistered(model) ){
 				delete _models[model];
 			}else
-				throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered." );
+				throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered." );			
 		}
 		
-		/**
-		 * Determines if the IModel is already registered.
-		 * @param cls The Imo
-		 */
-		public function isRegistered( cls:Class ):Boolean
+		public function unregisterAll():void
 		{
-			if( _models[cls] is ReflectModel )
+			for( var cls:Object in __models ){
+				( __models[cls] as ContextModelData ).dispose();
+				delete _models[cls];
+			}
+			
+			__models = new Dictionary();
+		}
+		
+		public function isRegistered( model:Class ):Boolean
+		{
+			if( _models[model] )
 				return true;
 			else
 				return false;
 		}
 		
-		/**
-		 * Starts a query on a model. 
-		 */
-		public function objects( model:Class ):IQuery {
+		public function objects( model:Class ):IModelManager
+		{
 			if( isRegistered(model) ){
-				return new Query(model,null);
-			}else{
-				throw new ModelDoesNotExist("The Model is not registered. Register the model first before querying.");
-			}
+				return ( _models[model] as ContextModelData ).manager;
+			}else
+				throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered." );			
 		}
 		
-		/**
-		 * 
-		 */
-		public function add( model:IModel ):void
+		public function injector( model:Class = null ):Injector
 		{
-			
-		}
-		
-		public function getStorageForModel(model:Class):IStorage
-		{
-			return null;
+			if( isRegistered(model) ){
+				return ( _models[model] as ContextModelData ).injector;
+			}else
+				throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered." );			
 		}
 
+		
+		// TODO: Possibilty for create() 	- but any model instance type
+		// TODO: Possibilty for update() 	- but any model instance type
+		// TODO: Possibilty for destroy() 	- but any model instance type
 	}
 }

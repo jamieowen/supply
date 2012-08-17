@@ -1,6 +1,7 @@
 package suites {
-	import tests.models.SignalsTest;
+	import tests.misc.SharedObjectTest;
 	import tests.models.ReflectTest;
+	import tests.models.SignalsTest;
 	/**
 	 * @author jamieowen
 	 */
@@ -13,5 +14,8 @@ package suites {
 		
 		[Test(order=2)]
 		public var signalsTest:SignalsTest;
+		
+		[Test]
+		public var createTest:SharedObjectTest;
 	}
 }
