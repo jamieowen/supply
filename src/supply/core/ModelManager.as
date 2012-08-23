@@ -1,13 +1,13 @@
 package supply.core {
+	import org.osflash.signals.ISignal;
 	import supply.api.IModel;
 	import supply.api.IModelManager;
 	import supply.api.IQuery;
 	import supply.api.ISerializer;
 	import supply.api.IStorage;
+	import supply.core.reflect.ReflectedModel;
 	import supply.queries.Query;
-	import supply.reflect.ReflectModel;
 
-	import org.osflash.signals.ISignal;
 
 	/**
 	 * @author jamieowen
@@ -38,7 +38,7 @@ package supply.core {
 		public var model:Class;
 		
 		[Inject]
-		public var reflect:ReflectModel;
+		public var reflect:ReflectedModel;
 		
 		[Inject]
 		public var storage:IStorage;

@@ -1,4 +1,4 @@
-package supply.reflect
+package supply.core.reflect
 {
 	import supply.errors.ReflectionError;
 	import supply.api.IModel;
@@ -7,7 +7,7 @@ package supply.reflect
 	/**
 	 * @author jamieowen
 	 */
-	public function reflectPropertiesFromModelClass(cls:Class) : Vector.<ReflectProperty>
+	public function reflectPropertiesFromModelClass(cls:Class) : Vector.<ReflectedProperty>
 	{
 		var type:XML = describeType(cls);
 		var IModelType:String = getQualifiedClassName(IModel);
@@ -23,8 +23,8 @@ package supply.reflect
 			throw new ReflectionError("Supplied model does not implement <IModel> interface.");
 		}
 		
-		var properties:Vector.<ReflectProperty> = new Vector.<ReflectProperty>();
-		var property:ReflectProperty;		
+		var properties:Vector.<ReflectedProperty> = new Vector.<ReflectedProperty>();
+		var property:ReflectedProperty;		
 		
 		var elements:XMLList = type.factory.children().( name() == "variable" || name() == "accessor" );
 		var element:XML;
@@ -33,7 +33,7 @@ package supply.reflect
 		
 		for each( element in elements )
 		{
-			property = new ReflectProperty();
+			property = new ReflectedProperty();
 			
 			property.name = element.@name;
 			property.type = element.@type;
@@ -54,7 +54,7 @@ package supply.reflect
 							break;
 					}
 				}
-			}	
+			}
 			
 			properties.push( property );
 		}

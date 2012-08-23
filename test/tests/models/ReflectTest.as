@@ -1,18 +1,10 @@
 package tests.models {
 	import avmplus.getQualifiedClassName;
-
 	import mock.models.Album;
 	import mock.models.Photo;
 	import mock.models.Photographer;
 	import mock.models.ReflectAllModel;
 	import mock.models.Tag;
-
-	import supply.api.IModel;
-	import supply.errors.ReflectionError;
-	import supply.reflect.ReflectProperty;
-	import supply.reflect.reflectPropertiesFromModelClass;
-	import supply.reflect.reflectPropertiesFromModelInstance;
-
 	import org.flexunit.asserts.assertEquals;
 	import org.hamcrest.Matcher;
 	import org.hamcrest.assertThat;
@@ -22,6 +14,14 @@ package tests.models {
 	import org.hamcrest.core.throws;
 	import org.hamcrest.object.hasPropertyWithValue;
 	import org.osflash.signals.ISignal;
+	import supply.api.IModel;
+	import supply.core.reflect.ReflectedProperty;
+	import supply.core.reflect.reflectPropertiesFromModelClass;
+	import supply.core.reflect.reflectPropertiesFromModelInstance;
+	import supply.errors.ReflectionError;
+
+
+
 	/**
 	 * @author jamieowen
 	 */
@@ -43,7 +43,7 @@ package tests.models {
 		{
 			expected_props = expected_props.concat.apply( this, getIModelProps() );
 			
-			var properties:Vector.<ReflectProperty> = reflectPropertiesFromModelInstance(model);
+			var properties:Vector.<ReflectedProperty> = reflectPropertiesFromModelInstance(model);
 			
 			var matchers:Array = [];
 			var exists_matchers:Array = [];
@@ -68,7 +68,7 @@ package tests.models {
 			}
 			
 			// assert all properties are correct
-			for each( var prop:ReflectProperty in properties ){
+			for each( var prop:ReflectedProperty in properties ){
 				assertThat( prop, anyOf( matchers ) );
 			}
 			

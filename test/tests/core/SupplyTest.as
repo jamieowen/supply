@@ -1,12 +1,10 @@
-package tests.core
-{
-	import supply.core.SupplyRegister;
-	import supply.core.Supply;
-	import mock.models.Tag;
-	import mock.models.Photographer;
+package tests.core {
 	import mock.models.Album;
 	import mock.models.Photo;
-	import supply.core.SupplyContext;
+	import mock.models.Photographer;
+	import mock.models.Tag;
+
+	import supply.core.SupplyRegister;
 	/**
 	 * @author jamieowen
 	 */

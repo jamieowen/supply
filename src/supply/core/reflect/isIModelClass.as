@@ -1,4 +1,4 @@
-package supply.reflect {
+package supply.core.reflect {
 	import flash.utils.describeType;
 	import supply.api.IModel;
 	import flash.utils.getQualifiedClassName;

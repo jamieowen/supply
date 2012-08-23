@@ -1,15 +1,16 @@
-package supply.reflect {
+package supply.core.reflect {
 	/**
 	 * @author jamieowen
 	 */
-	public class ReflectProperty
+	public class ReflectedProperty
 	{		
 		public var name:String;
 		public var type:String;
 		public var store:Boolean;
 		public var readonly:Boolean;
+		public var isForeignKey:Boolean; // indicates if the type is a model managed by this context.
 		
-		public function ReflectProperty():void
+		public function ReflectedProperty():void
 		{
 			
 		}

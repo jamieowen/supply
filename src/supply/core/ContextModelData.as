@@ -1,12 +1,16 @@
 package supply.core {
+	import avmplus.getQualifiedClassName;
+	import org.swiftsuspenders.Injector;
 	import supply.api.IModelManager;
 	import supply.api.ISerializer;
 	import supply.api.IStorage;
-	import supply.reflect.ReflectModel;
+	import supply.core.reflect.ReflectedModel;
 
-	import org.swiftsuspenders.Injector;
 	
-	
+	/**
+	 * Holds all information related to a single model, including the reflection information, the model manager,  the manager
+	 * scoped injector, storage object and serialization object.
+	 */
 	internal class ContextModelData
 	{
 		[Inject(name="ModelManager")]
@@ -21,10 +25,24 @@ package supply.core {
 		[Inject]
 		public var contextInjector:Injector;
 		
+		[Inject]
+		public var reflectionManager:ReflectionManager;
+		
 		public var injector:Injector;
 		
 		private var _model:Class;
 		private var _manager:IModelManager;
+		private var _reflect:ReflectedModel;
+		
+		public function get reflect():ReflectedModel
+		{
+			return _reflect;
+		}
+		
+		public function get type():String
+		{
+			return getQualifiedClassName(_model);
+		}
 		
 		public function ContextModelData(model:Class)
 		{
@@ -54,8 +72,8 @@ package supply.core {
 				injector.map(Injector).toValue(injector);
 				injector.map(Class, "Model").toValue(_model);
 				
-				const reflect:ReflectModel = new ReflectModel(_model);
-				injector.map(ReflectModel).toValue(reflect);
+				_reflect = reflectionManager.reflect(_model);
+				injector.map(ReflectedModel).toValue(_reflect);
 				
 				// check these as they can be injected to customize each models
 				// storage and serialization options.

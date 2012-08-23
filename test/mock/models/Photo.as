@@ -1,8 +1,4 @@
 package mock.models {
-	import supply.serialization.JSONSerializer;
-	import supply.api.ISerializer;
-	import supply.storage.LocalSharedObjectStorage;
-	import supply.api.IStorage;
 	import supply.base.Model;
 
 	/**

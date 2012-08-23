@@ -29,7 +29,7 @@ package supply.storage {
 		
 		public function LocalSharedObjectStorage()
 		{
-
+			
 		}
 		
 		public function query(query : Query, options : QueryOptions) : *
