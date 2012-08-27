@@ -70,7 +70,7 @@ package supply.queries {
 			return this;
 		}
 		
-		public function all():*
+		public function all():QuerySet
 		{
 			if( _matches.length == 0 ){
 				appendMatch( new MatchAnything() );
@@ -78,7 +78,7 @@ package supply.queries {
 			return _storage.query(this, new QueryOptions() );
 		}
 		
-		public function first(count:int):*
+		public function first(count:int):QuerySet
 		{
 			if( _matches.length == 0 ){
 				appendMatch( new MatchAnything() );
@@ -86,7 +86,7 @@ package supply.queries {
 			return _storage.query(this, new QueryOptions(false,count) );
 		}
 		
-		public function last(count:int):*
+		public function last(count:int):QuerySet
 		{
 			if( _matches.length == 0 ){
 				appendMatch( new MatchAnything() );
@@ -94,7 +94,7 @@ package supply.queries {
 			return _storage.query( this, new QueryOptions(false,0,count) );
 		}
 		
-		public function slice(start:int,count:int):*
+		public function slice(start:int,count:int):QuerySet
 		{
 			if( _matches.length == 0 ){
 				appendMatch( new MatchAnything() );

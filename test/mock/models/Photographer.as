@@ -24,7 +24,12 @@ package mock.models {
 		
 		public function toString():String
 		{
-			return "[Photographer(firstName="  + firstName + ")]";
+			return "[ Photographer( id :" + id + 
+							", firstName :" + firstName +
+							", lastName :" + lastName + 
+							", email :" + email + 
+							", dob :" + dob + 
+							", isAmateur:" + isAmateur + ") ]";
 		}
 	}
 }

@@ -1,4 +1,5 @@
 package supply.storage {
+	import supply.queries.QuerySet;
 	import supply.api.ISerializer;
 	import supply.api.IModel;
 	import supply.api.IModelManager;
@@ -60,9 +61,11 @@ package supply.storage {
 			
 		}
 		
-		public function query(query : Query, options : QueryOptions) : *
+		public function query(query : Query, options : QueryOptions) : QuerySet
 		{
-			_requestProcessor.add( new LSOQueryRequest(), new LSOQueryMessage(query,options) );
+			var querySet:QuerySet = new QuerySet(query, options);
+			_requestProcessor.add( new LSOQueryRequest(), new LSOQueryMessage(querySet) );
+			return querySet;
 		}
 		
 		public function create(model : IModel) : void
@@ -87,7 +90,7 @@ package supply.storage {
 			if( modelHasId(model) ){
 				_requestProcessor.add( new LSODestroyRequest(), new LSOModelMessage(model) );
 			}else
-				throw new StorageError("The model has no id. Use create() to add the model first before destroying.");			
+				throw new StorageError("The model has no id. Use create() to add the model first before destroying.");
 		}
 	}
 }

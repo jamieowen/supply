@@ -1,5 +1,5 @@
 package suites {
-	import tests.core.InjectionTest;
+	import tests.core.BasicSupplyTest;
 	import tests.core.RegisterTest;
 	/**
 	 * @author jamieowen
@@ -12,6 +12,6 @@ package suites {
 		public var registerTest:RegisterTest;
 		
 		[Test(order=2)]
-		public var injectionTest:InjectionTest;
+		public var basicTest:BasicSupplyTest;
 	}
 }

@@ -48,7 +48,7 @@ package supply.core {
 		 * 
 		 * The 
 		 */
-		public function get name():String
+		public function get uniqueName():String
 		{
 			var name:String = type;
 			name = name.replace( ".", "_" );

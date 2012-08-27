@@ -1,6 +1,5 @@
 package supply.storage.lso {
-	import supply.queries.QueryOptions;
-	import supply.queries.Query;
+	import supply.queries.QuerySet;
 	import supply.storage.request.RequestMessage;
 
 	/**
@@ -8,13 +7,11 @@ package supply.storage.lso {
 	 */
 	public class LSOQueryMessage implements RequestMessage
 	{
-		public var query:Query;
-		public var options:QueryOptions;
+		public var querySet:QuerySet;
 		
-		public function LSOQueryMessage(query:Query, options:QueryOptions)
+		public function LSOQueryMessage(querySet:QuerySet)
 		{
-			this.query 		= query;
-			this.options 	= options;
+			this.querySet = querySet;
 		}
 	}
 }

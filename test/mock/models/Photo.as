@@ -23,7 +23,8 @@ package mock.models {
 		
 		public function toString():String
 		{
-			return "[ Photo( title :" + title + 
+			return "[ Photo( id :" + id + 
+							", title :" + title +
 							", author :" + author + 
 							", lens :" + lens + 
 							", published :" + published + 

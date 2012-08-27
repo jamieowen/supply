@@ -1,4 +1,5 @@
 package supply.storage.lso {
+	import supply.core.SupplyContext;
 	import flash.net.SharedObject;
 	import supply.core.uuid;
 	import supply.api.IModel;
@@ -20,6 +21,9 @@ package supply.storage.lso {
 		[Inject]
 		public var message:LSOModelMessage;
 		
+		[Inject]
+		public var context:SupplyContext;
+		
 		public function LSOCreateRequest()
 		{
 			super();
@@ -27,13 +31,13 @@ package supply.storage.lso {
 		
 		override public function execute():void
 		{
-			onStart.dispatch();
+			onStart.dispatch(this);
 			
 			var model:IModel = message.model;
 			model.id = uuid();
 				
-			const name:String = modelInfo.name;
-			const shared:SharedObject = SharedObject.getLocal("Supply"); // Name should be replaced with context name.
+			const name:String = modelInfo.uniqueName;
+			const shared:SharedObject = SharedObject.getLocal(context.name);
 			const item:* = serializer.serialize(model);
 				
 			var items:Array;
@@ -45,7 +49,7 @@ package supply.storage.lso {
 				shared.data[name] = items;
 			}
 			
-			onComplete.dispatch();
+			onComplete.dispatch(this);
 		}
 	}
 }

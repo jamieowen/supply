@@ -9,7 +9,7 @@ package supply.core {
 		public static function getInstance():SupplyContext
 		{
 			if( !_instance ){
-				_instance = new SupplyContext();
+				_instance = new SupplyContext("Supply");
 			}
 			return _instance;
 		}

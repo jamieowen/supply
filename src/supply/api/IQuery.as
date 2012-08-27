@@ -1,4 +1,5 @@
 package supply.api {
+	import supply.queries.QuerySet;
 	/**
 	 * @author jamieowen
 	 */
@@ -8,9 +9,9 @@ package supply.api {
 		function exclude( ...properties ):IQueryValues;
 		function map( func:Function ):IQuery;
 		
-		function all():*;
-		function first(count:int):*;
-		function last(count:int):*;
-		function slice(start:int,count:int):*;
+		function all():QuerySet;
+		function first(count:int):QuerySet;
+		function last(count:int):QuerySet;
+		function slice(start:int,count:int):QuerySet;
 	}
 }

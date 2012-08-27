@@ -2,8 +2,8 @@ package supply.core {
 	/**
 	 * @author jamieowen
 	 */
-	public function SupplyRegister(...models) : void{
+	public function SupplyUnregister(...models) : void{
 		var context:SupplyContext = SupplySingleton.getInstance();
-		context.register.apply( this, models );
+		context.unregister.apply(this, models );
 	}
 }

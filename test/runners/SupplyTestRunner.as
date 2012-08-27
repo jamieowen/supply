@@ -36,8 +36,8 @@ package runners {
 			//var request:Request = Request.methods( someClass, ["method1", "method2", "method3"] ).sortWith( someSorter ).filterWith( someFilter );
 			//core.run( request );
 			
-			//core.run(SerializationTestSuite);
-			core.run(CoreTestSuite,ModelTestSuite, QueryTestSuite,SerializationTestSuite);
+			core.run(CoreTestSuite);
+			//core.run(CoreTestSuite,ModelTestSuite, QueryTestSuite,SerializationTestSuite);
 		}
 	}
 }

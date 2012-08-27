@@ -14,14 +14,22 @@ package supply.core {
 	 */
 	public class SupplyContext
 	{
+		private var _uniqueName:String;
+		
 		private var _contextInjector:Injector;
 		private var _contextModelManager:ContextModelManager;
 		
-		/**
-		 * @param id A unique id to use for this Supply instance if more than one are used in an app.
-		 */
-		public function SupplyContext()
+		public function get name():String
 		{
+			return _uniqueName;
+		}
+		
+		/**
+		 * @param uniqueName A unique id to use for this Supply instance if more than one are used in an app.
+		 */
+		public function SupplyContext(uniqueName:String ="Supply")
+		{
+			_uniqueName 			= uniqueName;
 			_contextInjector 		= new Injector();
 			
 			_contextInjector.map(Injector).toValue(_contextInjector);
@@ -41,9 +49,9 @@ package supply.core {
 			_contextModelManager.register.apply(this,classes);
 		}
 		
-		public function unregister(model:Class):void
+		public function unregister(...classes):void
 		{
-			_contextModelManager.unregister(model);
+			_contextModelManager.unregister.apply(this,classes);
 		}
 		
 		public function unregisterAll():void

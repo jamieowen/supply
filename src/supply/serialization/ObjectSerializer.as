@@ -57,8 +57,9 @@ package supply.serialization {
 				
 				if( typeSerializer )
 					typeSerializer.serialize(property, data, model );
-				else
-					trace( "Unhandled type.." + property.type );
+				else{
+					//trace( "Unhandled type.." + property.type );
+				}
 			}
 			
 			return data.data;
@@ -95,8 +96,9 @@ package supply.serialization {
 				
 				if( typeSerializer )
 					typeSerializer.deserialize(property, fromData, model );
-				else
-					trace( "Cannot deserialize type.." + property.type );
+				else{
+					//trace( "Cannot deserialize type.." + property.type );
+				}
 			}
 			
 			return model;

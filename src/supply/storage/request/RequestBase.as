@@ -8,8 +8,8 @@ package supply.storage.request {
 	 */
 	public class RequestBase implements Request
 	{
-		private var _onStart:ISignal 	= new Signal(this);
-		private var _onComplete:ISignal = new Signal(this);
+		private var _onStart:ISignal 	= new Signal(Request);
+		private var _onComplete:ISignal = new Signal(Request);
 		
 		public function RequestBase()
 		{

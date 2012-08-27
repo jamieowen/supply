@@ -1,4 +1,5 @@
 package mock.storage {
+	import supply.queries.QuerySet;
 	import supply.api.IStorage;
 	import supply.queries.QueryOptions;
 	import supply.api.IModel;
@@ -18,11 +19,12 @@ package mock.storage {
 		{		
 		}
 		
-		public function query(query : Query, options : QueryOptions) : *
+		public function query(query : Query, options : QueryOptions) : QuerySet
 		{
 			if( onQuery != null ){
 				onQuery( query, options );
 			}
+			return null;
 		}
 
 		public function create(model : IModel) : void {

@@ -109,12 +109,19 @@ package supply.core {
 			}
 		}
 		
-		public function unregister(model:Class):void
+		public function unregister(...classes):void
 		{
-			if( isRegistered(model) ){
-				delete _models[model];
-			}else
-				throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered." );			
+			var model:Class;
+			for each( model in classes ){
+				if( !isRegistered(model) ){
+					throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered. No models unregistered." );
+					return;
+				}
+			}
+			
+			for each( model in classes ){
+				delete _models[model];	
+			}
 		}
 		
 		public function unregisterAll():void
