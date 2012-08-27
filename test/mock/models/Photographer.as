@@ -12,6 +12,9 @@ package mock.models {
 		public var dob:Date;
 		public var isAmateur:Boolean;
 		
+		// to test array.
+		public var customLabels:Array;
+		
 		public function Photographer( firstName:String = "" )
 		{
 			super();

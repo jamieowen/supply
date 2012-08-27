@@ -11,6 +11,18 @@ package supply.core
 		// unique id for the model
 		private var _uid:String;
 		
+		private var _id:String;
+		
+		public function get id():String
+		{
+			return _id;
+		}
+		
+		public function set id(value:String):void
+		{
+			_id = value;
+		}
+		
 		// a reference to the user-defined Model object containing properties.
 		private var _model:IModel;
 		

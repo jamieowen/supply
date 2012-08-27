@@ -6,7 +6,10 @@ package supply.core {
 	import flash.utils.getQualifiedClassName;
 	import supply.errors.RegisterError;
 	import supply.api.IModelManager;
+
 	/**
+	 * Manages all Models in a Context.
+	 * 
 	 * @author jamieowen
 	 */
 	public class ContextModelManager
@@ -16,6 +19,9 @@ package supply.core {
 		
 		private var __models:Dictionary;
 		
+		/**
+		 * An internal 
+		 */
 		private function get _models():Dictionary
 		{
 			if( __models == null ){
@@ -24,16 +30,30 @@ package supply.core {
 			return __models;
 		}
 		
+		/**
+		 * Returns a Dictionary mapping Model class to 
+		 * a ContextModelData instance.
+		 */
 		public function get models():Dictionary
 		{
 			return _models;	
 		}
 		
+		/**
+		 * Gets the specific ContextModelData for a Model class.
+		 */
 		public function getDataForModel( model:Class ):ContextModelData
 		{
-			return _models[model];
+			if( isRegistered(model) ){
+				return _models[model];
+			}else
+				throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered." );			
 		}
 		
+		/**
+		 * Returns a ContextModelData instance for a flash type string. ( e.g. 'app.models::MyModel' )
+		 * If no Model exists for that string, null is returned.
+		 */
 		public function getDataForType( type:String ):ContextModelData
 		{
 			var data:ContextModelData = null;
@@ -45,11 +65,17 @@ package supply.core {
 			return null;
 		}
 		
+		/**
+		 * Creates a ContextModelManager.
+		 */
 		public function ContextModelManager()
 		{
 			
 		}
 		
+		/**
+		 * Retrieves the IModelManager instance for a spefic Model class.
+		 */
 		public function manager( model:Class ):IModelManager
 		{
 			if( isRegistered(model) ){
@@ -57,7 +83,11 @@ package supply.core {
 			}else
 				throw new RegisterError("The model '" + getQualifiedClassName(model) + "' is not registered." );			
 		}
-
+		
+		/**
+		 * Registers the Model classes with the Context.
+		 * All Models must implement the IModel interface.
+		 */
 		public function register(...classes):void
 		{
 			var c:Class;

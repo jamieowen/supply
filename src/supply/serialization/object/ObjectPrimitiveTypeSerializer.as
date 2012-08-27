@@ -30,8 +30,6 @@ package supply.serialization.object {
 					return true;
 				case getQualifiedClassName(Number):
 					return true;
-				case getQualifiedClassName(Date):
-					return true;
 				default:
 					return false;
 			}
@@ -44,7 +42,10 @@ package supply.serialization.object {
 		
 		public function deserialize( property:ReflectedProperty, data:ISerializerData, into:IModel ):void
 		{
-			
+			var from:Object = data.data as Object;
+			if( from.hasOwnProperty(property.name) ){
+				into[property.name] = from[property.name];
+			}
 		}
 	}
 }

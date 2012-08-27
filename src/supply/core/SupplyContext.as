@@ -1,8 +1,7 @@
 package supply.core {
 	import supply.api.IModelManager;
 	import supply.errors.RegisterError;
-	import supply.serialization.ObjectSerializer;
-	import supply.storage.LocalSharedObjectStorage;
+	import supply.storage.LSOStorage;
 
 	import org.osflash.signals.Signal;
 	import org.swiftsuspenders.Injector;
@@ -27,10 +26,10 @@ package supply.core {
 			
 			_contextInjector.map(Injector).toValue(_contextInjector);
 			_contextInjector.map(SupplyContext).toValue(this);
+			// default classes to use for Signal, ModelManager, Storage.
 			_contextInjector.map(Class,"Signal").toValue(Signal);
 			_contextInjector.map(Class,"ModelManager").toValue(ModelManager);
-			_contextInjector.map(Class,"Storage").toValue(LocalSharedObjectStorage);
-			_contextInjector.map(Class,"Serializer").toValue(ObjectSerializer);
+			_contextInjector.map(Class,"Storage").toValue(LSOStorage);
 			
 			_contextModelManager 	= new ContextModelManager();
 			_contextInjector.map(ContextModelManager).toValue(_contextModelManager);
@@ -50,6 +49,11 @@ package supply.core {
 		public function unregisterAll():void
 		{
 			_contextModelManager.unregisterAll();
+		}
+		
+		public function getDataForModel( model:Class ):ContextModelData
+		{
+			return _contextModelManager.getDataForModel(model);
 		}
 		
 		public function isRegistered( model:Class ):Boolean

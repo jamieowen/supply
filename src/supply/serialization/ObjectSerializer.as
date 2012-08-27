@@ -1,14 +1,15 @@
 package supply.serialization {
-	import supply.serialization.object.ObjectForeignKeySerializer;
-	import supply.serialization.object.ObjectSerializerData;
-	import flash.utils.Dictionary;
-	import avmplus.getQualifiedClassName;
+	import supply.core.ContextModelData;
+	import supply.serialization.object.ObjectArraySerializer;
+	import supply.serialization.object.ObjectDateSerializer;
 	import supply.api.IModel;
 	import supply.api.IModelManager;
 	import supply.api.ISerializer;
 	import supply.core.reflect.ReflectedModel;
 	import supply.core.reflect.ReflectedProperty;
+	import supply.serialization.object.ObjectForeignKeySerializer;
 	import supply.serialization.object.ObjectPrimitiveTypeSerializer;
+	import supply.serialization.object.ObjectSerializerData;
 
 	/**
 	 * @author jamieowen
@@ -21,6 +22,9 @@ package supply.serialization {
 		[Inject]
 		public var reflect:ReflectedModel;
 		
+		[Inject]
+		public var info:ContextModelData;
+		
 		private var _serializers:Vector.<IPropertySerializer>;
 		
 		public function ObjectSerializer()
@@ -28,8 +32,11 @@ package supply.serialization {
 			super();
 			
 			_serializers = new Vector.<IPropertySerializer>();
+			
 			_serializers.push( new ObjectPrimitiveTypeSerializer() );
 			_serializers.push( new ObjectForeignKeySerializer() );
+			_serializers.push( new ObjectDateSerializer() );
+			_serializers.push( new ObjectArraySerializer() );
 		}
 		
 		public function serialize(model : IModel) : *
@@ -48,36 +55,65 @@ package supply.serialization {
 						typeSerializer = null;
 				}
 				
-				if( typeSerializer ){
-					trace( "Handled : " + property.type );
+				if( typeSerializer )
 					typeSerializer.serialize(property, data, model );
-				}else{
+				else
 					trace( "Unhandled type.." + property.type );
-				}
 			}
 			
-			trace( data );
+			return data.data;
 		}
 
 		public function serializeMany(models : Vector.<IModel>) : *
 		{
-			var result:*;
-			var previous:* = result;
-			var next:*;
+			var items:Array = [];
+
 			for each( var model:IModel in models ){
-				serialize(model);
-			}			
+				items.push( serialize(model) );
+			}
+			
+			return items;
 		}
 
 		public function deserialize(data : *) : IModel
 		{
-			return null;
+			var fromData:ISerializerData = new ObjectSerializerData(data);
+			var typeSerializer:IPropertySerializer;
+			var i:int;
+			var model:IModel = new info.model();
+			
+			for each( var property:ReflectedProperty in reflect.properties )
+			{
+				for( i = 0; i<_serializers.length; i++ )
+				{
+					typeSerializer = _serializers[i];
+					if( typeSerializer.handlesProperty(property))
+						break;
+					else
+						typeSerializer = null;
+				}
+				
+				if( typeSerializer )
+					typeSerializer.deserialize(property, fromData, model );
+				else
+					trace( "Cannot deserialize type.." + property.type );
+			}
+			
+			return model;
 		}
-
+		
+		/**
+		 * @param data An array of objects. Each object should be serialized IModel instance in a format produced voi
+		 */
 		public function deserializeMany(data : *) : Vector.<IModel>
 		{
-			// TODO: Auto-generated method stub
-			return null;
+			var items:Vector.<IModel> = new Vector.<IModel>();
+
+			for each( var model:Object in data ){
+				items.push( deserialize(model) );
+			}
+			
+			return items;
 		}
 	}
 }

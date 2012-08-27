@@ -85,7 +85,8 @@ package tests.models {
 			var props:Array = [
 				"name", 		true, 	false, 	getQualifiedClassName(String),
 				"author", 		true, 	false, 	getQualifiedClassName(Photographer),
-				"photos", 		true, 	false, 	getQualifiedClassName( new Vector.<Photo>() )
+				"photos", 		true, 	false, 	getQualifiedClassName( new Vector.<Photo>() ),
+				"id",			true, 	false, 	getQualifiedClassName(String)
 				];
 			
 			assertModel(model, props);			
@@ -94,7 +95,6 @@ package tests.models {
 		[Test]
 		public function test_photo_Reflect():void
 		{
-			
 			var model:Photo = new Photo();
 			
 			// name, store, readonly, type
@@ -104,7 +104,8 @@ package tests.models {
 				"tags", 		true, 	false, 	getQualifiedClassName( new Vector.<Tag>() ),
 				"published",	true, 	false, 	getQualifiedClassName(Date),
 				"lens",			true, 	false, 	getQualifiedClassName(int),
-				"focalRatio",	true, 	false, 	getQualifiedClassName(Number)
+				"focalRatio",	true, 	false, 	getQualifiedClassName(Number),
+				"id",			true, 	false, 	getQualifiedClassName(String)
 				];
 			
 			assertModel(model, props);
@@ -121,7 +122,9 @@ package tests.models {
 				"lastName", 		true, 	false, 	getQualifiedClassName(String),
 				"email", 			true, 	false, 	getQualifiedClassName(String),
 				"dob",				true, 	false, 	getQualifiedClassName(Date),
-				"isAmateur",		true, 	false, 	getQualifiedClassName(Boolean)
+				"isAmateur",		true, 	false, 	getQualifiedClassName(Boolean),
+				"id",				true, 	false, 	getQualifiedClassName(String),
+				"customLabels",		true, 	false, 	getQualifiedClassName(Array)
 				];
 			
 			assertModel(model, props);				
@@ -134,7 +137,8 @@ package tests.models {
 
 			// name, store, readonly, type
 			var props:Array = [
-				"name", 		true, 	false, 	getQualifiedClassName(String)
+				"name", 		true, 	false, 	getQualifiedClassName(String),
+				"id",			true, 	false, 	getQualifiedClassName(String)
 				];
 			
 			assertModel(model, props);
@@ -157,7 +161,8 @@ package tests.models {
 				"model_vector",					true, 	false, 	getQualifiedClassName(new Vector.<ReflectAllModel>()),
 				"nostore_string_property", 		false, 	false, 	getQualifiedClassName(String),
 				"readwrite_string_property", 	true, 	false, 	getQualifiedClassName(String),
-				"readonly_string_property", 	true, 	true, 	getQualifiedClassName(String)
+				"readonly_string_property", 	true, 	true, 	getQualifiedClassName(String),
+				"id",							true, 	false, 	getQualifiedClassName(String)
 				];
 			
 			assertModel(model, props);

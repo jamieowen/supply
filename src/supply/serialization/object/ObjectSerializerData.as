@@ -8,9 +8,9 @@ package supply.serialization.object {
 	{
 		private var _data:Object;
 		
-		public function ObjectSerializerData()
+		public function ObjectSerializerData(data:Object=null)
 		{
-			_data = {};
+			_data = data == null ? {} : data;
 		}
 		
 		public function get data() : *{

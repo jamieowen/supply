@@ -1,26 +1,24 @@
 package supply.core {
 	import avmplus.getQualifiedClassName;
-	import org.swiftsuspenders.Injector;
+
 	import supply.api.IModelManager;
-	import supply.api.ISerializer;
 	import supply.api.IStorage;
 	import supply.core.reflect.ReflectedModel;
+
+	import org.swiftsuspenders.Injector;
 
 	
 	/**
 	 * Holds all information related to a single model, including the reflection information, the model manager,  the manager
-	 * scoped injector, storage object and serialization object.
+	 * scoped injector, storage class.
 	 */
-	internal class ContextModelData
+	public class ContextModelData
 	{
 		[Inject(name="ModelManager")]
 		public var defaultModelManagerClass:Class;
 		
 		[Inject(name="Storage")]
 		public var defaultStorageClass:Class;
-		
-		[Inject(name="Serializer")]
-		public var defaultSerializerClass:Class;
 		
 		[Inject]
 		public var contextInjector:Injector;
@@ -30,7 +28,8 @@ package supply.core {
 		
 		public var injector:Injector;
 		
-		private var _model:Class;
+		public var model:Class;
+		
 		private var _manager:IModelManager;
 		private var _reflect:ReflectedModel;
 		
@@ -41,12 +40,25 @@ package supply.core {
 		
 		public function get type():String
 		{
-			return getQualifiedClassName(_model);
+			return getQualifiedClassName(model);
+		}
+		
+		/**
+		 * A unique name based on the model's type.
+		 * 
+		 * The 
+		 */
+		public function get name():String
+		{
+			var name:String = type;
+			name = name.replace( ".", "_" );
+			name = name.replace( "::", "__" ); 
+			return name;
 		}
 		
 		public function ContextModelData(model:Class)
 		{
-			this._model 				 = model;
+			this.model 				 = model;
 		}
 		// call initialise after injections have been made.
 		public function initialise():void
@@ -70,19 +82,15 @@ package supply.core {
 				injector.map(IModelManager).toValue(_manager);
 				
 				injector.map(Injector).toValue(injector);
-				injector.map(Class, "Model").toValue(_model);
+				injector.map(ContextModelData ).toValue(this);
 				
-				_reflect = reflectionManager.reflect(_model);
+				_reflect = reflectionManager.reflect(model);
 				injector.map(ReflectedModel).toValue(_reflect);
 				
 				// check these as they can be injected to customize each models
-				// storage and serialization options.
+				// storage options.
 				if( !injector.satisfies(IStorage) ){
 					injector.map(IStorage).toSingleton(defaultStorageClass);
-				}
-				
-				if( !injector.satisfies(ISerializer) ){
-					injector.map(ISerializer).toSingleton(defaultSerializerClass);
 				}
 				
 				injector.injectInto(_manager);

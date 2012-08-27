@@ -1,12 +1,12 @@
 package supply.core {
-	import org.osflash.signals.ISignal;
 	import supply.api.IModel;
 	import supply.api.IModelManager;
 	import supply.api.IQuery;
-	import supply.api.ISerializer;
 	import supply.api.IStorage;
 	import supply.core.reflect.ReflectedModel;
 	import supply.queries.Query;
+
+	import org.osflash.signals.ISignal;
 
 
 	/**
@@ -33,18 +33,15 @@ package supply.core {
 			_onUpdated		= new SignalType(IModel);
 			_onDestroyed	= new SignalType(IModel);
 		}
-
-		[Inject(name="Model")]
-		public var model:Class;
+		
+		[Inject]
+		public var info:ContextModelData;
 		
 		[Inject]
 		public var reflect:ReflectedModel;
 		
 		[Inject]
 		public var storage:IStorage;
-		
-		[Inject]
-		public var serializer:ISerializer;
 		
 		//[Inject]
 		//public var queries:IQueryManager;
@@ -105,7 +102,7 @@ package supply.core {
 
 		public function get query() : IQuery
 		{
-			return new Query(model, storage);
+			return new Query(info.model, storage);
 		}
 	}
 }
