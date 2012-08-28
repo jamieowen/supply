@@ -87,7 +87,7 @@ package tests.core {
 			trace( photographers[0] );
 			
 			assertEquals( 1, photographers.length );
-			assertEquals( 1, photos.length );			
+			assertEquals( 1, photos.length );
 		}
 		
 		[Test(order=5)]

@@ -1,4 +1,5 @@
 package supply.serialization.object {
+	import supply.storage.request.Request;
 	import flash.utils.getQualifiedClassName;
 	import supply.serialization.IPropertySerializer;
 	import supply.core.reflect.ReflectedProperty;
@@ -32,7 +33,7 @@ package supply.serialization.object {
 			}
 		}
 
-		public function deserialize(property : ReflectedProperty, data : ISerializerData, into : IModel) : void
+		public function deserialize(property : ReflectedProperty, data : ISerializerData, into : IModel, subRequests:Vector.<Request> ) : void
 		{
 			var from:Object = data.data as Object;
 			if( from.hasOwnProperty(property.name) ){

@@ -1,4 +1,5 @@
 package supply.storage.lso {
+	import supply.storage.request.Request;
 	import supply.queries.matchers.IMatcher;
 	import supply.queries.Query;
 	import supply.api.IModel;
@@ -46,8 +47,15 @@ package supply.storage.lso {
 				items = [];
 			}
 			
+			var subRequests:Vector.<Request> = new Vector.<Request>();
+			
 			// deserialize all items.
-			var all:Vector.<IModel> = serializer.deserializeMany(items);
+			var all:Vector.<IModel> = serializer.deserializeMany(items,subRequests);
+			
+			// handle sub requests for foreign model lookups.
+			if( subRequests.length ){
+				
+			}
 			
 			// run matcher on all items
 			var resultsFiltered:Vector.<IModel> = all;

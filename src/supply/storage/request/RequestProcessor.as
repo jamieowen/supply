@@ -1,11 +1,12 @@
 package supply.storage.request {
-	import flash.utils.getDefinitionByName;
 	import avmplus.getQualifiedClassName;
-	import flash.net.getClassByAlias;
-	import flash.events.TimerEvent;
-	import flash.utils.Timer;
+
 	import org.osflash.signals.Signal;
 	import org.swiftsuspenders.Injector;
+
+	import flash.events.TimerEvent;
+	import flash.utils.Timer;
+	import flash.utils.getDefinitionByName;
 	/**
 	 * @author jamieowen
 	 */

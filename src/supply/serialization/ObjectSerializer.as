@@ -1,4 +1,5 @@
 package supply.serialization {
+	import supply.storage.request.Request;
 	import supply.core.ContextModelData;
 	import supply.serialization.object.ObjectArraySerializer;
 	import supply.serialization.object.ObjectDateSerializer;
@@ -76,7 +77,7 @@ package supply.serialization {
 			return items;
 		}
 
-		public function deserialize(data : *) : IModel
+		public function deserialize(data : *, subRequests:Vector.<Request>) : IModel
 		{
 			var fromData:ISerializerData = new ObjectSerializerData(data);
 			var typeSerializer:IPropertySerializer;
@@ -95,7 +96,7 @@ package supply.serialization {
 				}
 				
 				if( typeSerializer )
-					typeSerializer.deserialize(property, fromData, model );
+					typeSerializer.deserialize(property, fromData, model, subRequests );
 				else{
 					//trace( "Cannot deserialize type.." + property.type );
 				}
@@ -107,12 +108,12 @@ package supply.serialization {
 		/**
 		 * @param data An array of objects. Each object should be serialized IModel instance in a format produced voi
 		 */
-		public function deserializeMany(data : *) : Vector.<IModel>
+		public function deserializeMany(data : *, subRequests:Vector.<Request>) : Vector.<IModel>
 		{
 			var items:Vector.<IModel> = new Vector.<IModel>();
 
 			for each( var model:Object in data ){
-				items.push( deserialize(model) );
+				items.push( deserialize(model,subRequests) );
 			}
 			
 			return items;

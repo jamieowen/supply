@@ -1,4 +1,5 @@
 package tests.serialization {
+	import supply.storage.request.Request;
 	import org.hamcrest.date.dateEqual;
 	import supply.serialization.ObjectSerializer;
 	import mock.models.Album;
@@ -108,7 +109,7 @@ package tests.serialization {
 			
 			var date:Date = new Date( 2000,8,13);
 			var photo:Object = {title:"Cloudy Sky", focalRatio:1.4, lens:35, author:uuid(), published:date.toUTCString(), id:uuid() };
-			var result:Photo = serializer.deserialize(photo) as Photo;
+			var result:Photo = serializer.deserialize(photo, new Vector.<Request>()) as Photo;
 	
 			assertThat( result,
 				allOf( 
@@ -133,7 +134,7 @@ package tests.serialization {
 			
 			var date:Date = new Date( 2000,8,13);
 			var photographer:Object = {firstName:"Jamie", lastName:"Owen", email:"name@domainname.com", dob:date.toUTCString(), isAmateur:true, id:uuid(), customLabels:[1,3,2,4,5] };
-			var result:Photographer = serializer.deserialize(photographer) as Photographer;
+			var result:Photographer = serializer.deserialize(photographer, new Vector.<Request>()) as Photographer;
 	
 			assertThat( result,
 				allOf( 

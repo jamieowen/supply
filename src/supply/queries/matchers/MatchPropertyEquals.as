@@ -15,6 +15,7 @@ package supply.queries.matchers {
 		{
 			if( ( model as Object ).hasOwnProperty(property) )
 			{
+				// TODO : implement uid comparison for IModel instances.
 				if( model[property] is Date && value is Date ){
 					var d1:Date = model[property];
 					var d2:Date = value;

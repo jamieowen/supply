@@ -1,4 +1,5 @@
 package supply.serialization.object {
+	import supply.storage.request.Request;
 	import supply.serialization.ISerializerData;
 	import avmplus.getQualifiedClassName;
 	import supply.core.reflect.ReflectedProperty;
@@ -40,7 +41,7 @@ package supply.serialization.object {
 			data.data[ property.name ] = instance[ property.name ];
 		}
 		
-		public function deserialize( property:ReflectedProperty, data:ISerializerData, into:IModel ):void
+		public function deserialize( property:ReflectedProperty, data:ISerializerData, into:IModel, subRequests:Vector.<Request> ):void
 		{
 			var from:Object = data.data as Object;
 			if( from.hasOwnProperty(property.name) ){

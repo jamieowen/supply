@@ -1,4 +1,5 @@
 package supply.storage.lso {
+	import supply.storage.request.Request;
 	import supply.api.IModel;
 	import flash.net.SharedObject;
 	import supply.core.SupplyContext;
@@ -46,8 +47,14 @@ package supply.storage.lso {
 			// slow implementation for now - should just look up id in objects direct from the SharedObject, but this prevents changing serialization methods.
 			// this might not be required though.
 			
+			var subRequests:Vector.<Request> = new Vector.<Request>();
 			// deserialize all items.
-			var all:Vector.<IModel> = serializer.deserializeMany(items);
+			var all:Vector.<IModel> = serializer.deserializeMany(items,subRequests);
+			
+			// handle sub requests for foreign model lookups.
+			if( subRequests.length ){
+				
+			}
 			
 			for( var i:int = 0; i<all.length; i++ )
 			{

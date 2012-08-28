@@ -104,7 +104,6 @@ package supply.core {
 			for each( c in classes ){
 				const modelData:ContextModelData = new ContextModelData(c);
 				contextInjector.injectInto(modelData);
-				modelData.initialise();
 				models[c] = modelData;
 			}
 		}

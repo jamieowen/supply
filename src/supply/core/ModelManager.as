@@ -42,6 +42,7 @@ package supply.core {
 		
 		[Inject]
 		public var storage:IStorage;
+
 		
 		//[Inject]
 		//public var queries:IQueryManager;

@@ -1,4 +1,5 @@
 package supply.serialization.object {
+	import supply.storage.request.Request;
 	import supply.errors.SerializationError;
 	import supply.core.modelHasId;
 	import supply.serialization.IPropertySerializer;
@@ -29,7 +30,7 @@ package supply.serialization.object {
 			}
 		}
 
-		public function deserialize(property : ReflectedProperty, data : ISerializerData, into : IModel) : void
+		public function deserialize(property : ReflectedProperty, data : ISerializerData, into : IModel, subRequests:Vector.<Request> ) : void
 		{
 			
 		}

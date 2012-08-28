@@ -28,6 +28,13 @@ package supply.core {
 		
 		public var injector:Injector;
 		
+		[PostConstruct]
+		public function initialise():void
+		{
+			injector 				 	= new Injector();
+			injector.parentInjector 	= contextInjector;
+		}
+		
 		public var model:Class;
 		
 		private var _manager:IModelManager;
@@ -45,8 +52,6 @@ package supply.core {
 		
 		/**
 		 * A unique name based on the model's type.
-		 * 
-		 * The 
 		 */
 		public function get uniqueName():String
 		{
@@ -59,12 +64,6 @@ package supply.core {
 		public function ContextModelData(model:Class)
 		{
 			this.model 				 = model;
-		}
-		// call initialise after injections have been made.
-		public function initialise():void
-		{
-			injector 				 	= new Injector();
-			injector.parentInjector 	= contextInjector;
 		}
 		
 		public function get manager():IModelManager
