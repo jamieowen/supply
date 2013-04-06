@@ -35,6 +35,8 @@ package supply.storage.request {
 		{		
 			_onStart.removeAll();
 			_onComplete.removeAll();
+			_onStart 	= null;
+			_onComplete = null;
 		}
 	}
 }
