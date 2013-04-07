@@ -1,7 +1,7 @@
 package supply.queries {
-	import supply.core.supply_internals;
-	import supply.api.IModel;
 	import org.osflash.signals.Signal;
+	import supply.api.IModel;
+	import supply.core.ns.supply_internals;
 	/**
 	 * @author jamieowen
 	 */

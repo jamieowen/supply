@@ -2,7 +2,7 @@ package supply.queries {
 	import supply.api.IQuery;
 	import supply.api.IQueryValues;
 	import supply.api.IStorage;
-	import supply.core.supply_internals;
+	import supply.core.ns.supply_internals;
 	import supply.queries.matchers.IMatcher;
 	import supply.queries.matchers.MatchAnything;
 	import supply.queries.matchers.MatchMapFunction;
