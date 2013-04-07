@@ -1,4 +1,5 @@
 package supply.base {
+	import supply.core.Fields;
 	import supply.core.uuid;
 	import org.osflash.signals.Signal;
 	import supply.api.IModel;
@@ -16,9 +17,10 @@ package supply.base {
 		private var _onSync:ISignal;
 		
 		// ---------------------------------------------------------------
-		// >>INTERNAL DECLARATIONS
+		// >>PRIVATE VARIABLES
 		// ---------------------------------------------------------------		
 		private var _cuid:String;
+		private var _fields:Fields;
 		
 		
 		// ---------------------------------------------------------------
@@ -93,8 +95,13 @@ package supply.base {
 		// ---------------------------------------------------------------
 		
 		
-		public function get fields():*
+		public function get fields():Fields
 		{
+			if( !_fields ){
+				_fields = new Fields(this);
+			}
+			
+			return _fields;
 			// Returns a Fields object.
 
 			// a list of properties ( fields )
