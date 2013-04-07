@@ -2,12 +2,12 @@ package supply.queries {
 	import supply.api.IQuery;
 	import supply.api.IQueryValues;
 	import supply.api.IStorage;
-	import supply.core.ns.supply_internals;
+	import supply.core.ns.supply_internal;
 	import supply.queries.matchers.IMatcher;
 	import supply.queries.matchers.MatchAnything;
 	import supply.queries.matchers.MatchMapFunction;
 	
-	use namespace supply_internals;
+	use namespace supply_internal;
 	
 	/**
 	 * @author jamieowen
@@ -25,12 +25,12 @@ package supply.queries {
 			_matches 	= new Vector.<IMatcher>();
 		}
 		
-		supply_internals function appendMatch(match : IMatcher) : void
+		supply_internal function appendMatch(match : IMatcher) : void
 		{
 			_matches.push( match );
 		}
 
-		supply_internals function get matches():Vector.<IMatcher>
+		supply_internal function get matches():Vector.<IMatcher>
 		{
 			return _matches;
 		}

@@ -1,8 +1,39 @@
 package supply.core {
+	import supply.core.ns.supply_internal;
+	import supply.api.IModelField;
 	import supply.api.IModel;
 
+	use namespace supply_internal;
+	
 	public class Fields
 	{
+		supply_internal static var _fields:Vector.<IModelField>;
+		
+		supply_internal static function getFieldForType(type:String):IModelField
+		{
+			return null;
+		}
+		
+		supply_internal static function registerField(field : IModelField) : Boolean
+		{ 
+			if( !field ){
+				return false;
+			}
+			if( !_fields ){
+				_fields = new Vector.<IModelField>();
+			}
+			
+			if( getFieldForType(field.getType()) == null )
+			{
+				_fields.push(field);
+				return true;
+			}else
+			{
+				throw new Error("Cannot register Field.  Field type already has a handler for it.");
+				return false;
+			}
+		}
+		
 		// ---------------------------------------------------------------
 		// >> PRIVATE VARIABLES
 		// ---------------------------------------------------------------	
@@ -23,7 +54,7 @@ package supply.core {
 		// >> PRIVATE GETTERS
 		// ---------------------------------------------------------------
 		
-		public function get fields():Object		
+		private function get fields():Object		
 		{
 			if( _fields == null ){
 				_fields = buildFieldMap(_model)	;

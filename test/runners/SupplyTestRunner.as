@@ -1,16 +1,14 @@
 package runners {
-	import suites.SerializationTestSuite;
-	import suites.CoreTestSuite;
-	import suites.QueryTestSuite;
-	import suites.ModelTestSuite;
-	/**
-	 * @author jamieowen
-	 */
+	import suites.SimplifiedSuite;
+
 	import org.flexunit.internals.TraceListener;
 	import org.flexunit.runner.FlexUnitCore;
 	import org.fluint.uiImpersonation.VisualTestEnvironmentBuilder;
 
 	import flash.display.Sprite;
+	/**
+	 * @author jamieowen
+	 */
 	
 	[SWF(frameRate=60,width=1280,height=1024)]
 	public class SupplyTestRunner extends Sprite {
@@ -36,7 +34,7 @@ package runners {
 			//var request:Request = Request.methods( someClass, ["method1", "method2", "method3"] ).sortWith( someSorter ).filterWith( someFilter );
 			//core.run( request );
 			
-			core.run(CoreTestSuite);
+			core.run(SimplifiedSuite);
 			//core.run(CoreTestSuite,ModelTestSuite, QueryTestSuite,SerializationTestSuite);
 		}
 	}

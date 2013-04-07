@@ -49,7 +49,7 @@ package supply.base {
 		}
 		
 		// ---------------------------------------------------------------
-		// >> INTERNAL DECLARATION GETTERS
+		// >> PUBLIC GETTERS
 		// ---------------------------------------------------------------		
 		
 		public function get cuid():String

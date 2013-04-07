@@ -1,15 +1,17 @@
-package supply.core {
-	import supply.api.IModelManager;
+package supply.core
+{
+	import supply.core.ns.supply_internal;
 
+	use namespace supply_internal;
 	/**
 	 * Shorthand access to the default SupplyContext.
 	 * The method provides the top Query object for the Model Class specified
 	 * 
 	 * @author jamieowen
 	 */
-	public function Supply(model:Class) : IModelManager
-	{
-		var context:SupplyContext = SupplySingleton.getInstance();
-		return context.objects(model);
+	public function Supply(model:Class) : SupplyMain {
+		var main : SupplyMain = SupplyMain.getInstance();
+		main.setOperatingModelClass(model);
+		return main;
 	}
 }

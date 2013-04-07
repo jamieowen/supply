@@ -1,7 +1,7 @@
 package supply.queries {
 	import org.osflash.signals.Signal;
 	import supply.api.IModel;
-	import supply.core.ns.supply_internals;
+	import supply.core.ns.supply_internal;
 	/**
 	 * @author jamieowen
 	 */
@@ -29,7 +29,7 @@ package supply.queries {
 			return _items;
 		}
 
-		supply_internals function updateItems( items:Vector.<IModel>):void
+		supply_internal function updateItems( items:Vector.<IModel>):void
 		{
 			_items = items;
 			onResult.dispatch(this);
