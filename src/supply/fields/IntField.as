@@ -4,7 +4,7 @@ package supply.fields {
 	/**
 	 * @author jamieowen
 	 */
-	public class IntField implements IModelField
+	public class intField implements IModelField
 	{
 		public function getType() : String {
 			// TODO: Auto-generated method stub

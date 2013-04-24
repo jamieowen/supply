@@ -1,9 +1,9 @@
 package supply.core {
-	import flash.utils.getDefinitionByName;
 	import supply.api.IModel;
-	import flash.utils.getQualifiedClassName;
+
 	import flash.utils.describeType;
-	import supply.errors.ReflectionError;
+	import flash.utils.getDefinitionByName;
+	import flash.utils.getQualifiedClassName;
 	
 	/**
 	 * @author jamieowen
@@ -25,7 +25,7 @@ package supply.core {
 			return isIModel;
 		}
 		
-		public static function reflectPropertiesFromModelClass(cls:Class) : Vector.<ReflectedProperty>
+		public static function reflectPropertiesFromModelClass(cls:Class) : Vector.<ReflectedField>
 		{
 			var type:XML = describeType(cls);
 			var IModelType:String = getQualifiedClassName(IModel);
@@ -38,11 +38,11 @@ package supply.core {
 			}
 			
 			if( !isIModel ){
-				throw new ReflectionError("Supplied model does not implement <IModel> interface.");
+				throw new Error("Supplied model does not implement <IModel> interface.");
 			}
 			
-			var properties:Vector.<ReflectedProperty> = new Vector.<ReflectedProperty>();
-			var property:ReflectedProperty;		
+			var properties:Vector.<ReflectedField> = new Vector.<ReflectedField>();
+			var property:ReflectedField;		
 			
 			var elements:XMLList = type.factory.children().( name() == "variable" || name() == "accessor" );
 			var element:XML;
@@ -51,7 +51,7 @@ package supply.core {
 			
 			for each( element in elements )
 			{
-				property = new ReflectedProperty();
+				property = new ReflectedField();
 				
 				property.name = element.@name;
 				property.type = element.@type;
@@ -80,7 +80,7 @@ package supply.core {
 			return properties;
 		}
 		
-		public static function reflectPropertiesFromModelInstance(model:IModel) : Vector.<ReflectedProperty>
+		public static function reflectPropertiesFromModelInstance(model:IModel) : Vector.<ReflectedField>
 		{
 			const cls:Class = getDefinitionByName( getQualifiedClassName(model) ) as Class;
 			return reflectPropertiesFromModelClass(cls);
@@ -88,15 +88,15 @@ package supply.core {
 	}
 }
 
-internal class ReflectedProperty
+internal class ReflectedField
 {
 	public var name:String;
 	public var type:String;
 	public var store:Boolean;
 	public var readonly:Boolean;
-	public var isForeignKey:Boolean; // indicates if the type is a model managed by this context.
+	public var isForeignKey:Boolean;
 		
-	public function ReflectedProperty():void
+	public function ReflectedField():void
 	{
 			
 	}
@@ -109,10 +109,10 @@ internal class ReflectedProperty
 
 internal class ReflectedModel
 {
-	private var _properties:Vector.<ReflectedProperty>;
+	private var _properties:Vector.<ReflectedField>;
 	private var _storageClass:Class;
 		
-	public function get properties():Vector.<ReflectedProperty>
+	public function get properties():Vector.<ReflectedField>
 	{
 		return _properties;
 	}
@@ -122,7 +122,7 @@ internal class ReflectedModel
 		return _storageClass;
 	}
 		
-	public function ReflectedModel(model:Class, properties:Vector.<ReflectedProperty>)
+	public function ReflectedModel(model:Class, properties:Vector.<ReflectedField>)
 	{
 		_properties = properties;
 	}	

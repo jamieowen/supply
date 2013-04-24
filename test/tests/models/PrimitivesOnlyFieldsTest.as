@@ -1,6 +1,6 @@
 package tests.models {
-	import supply.core.Supply;
 	import mock.models.PrimitivesOnlyModel;
+	import supply.Supply;
 	/**
 	 * @author jamieowen
 	 */

@@ -6,11 +6,11 @@ package supply.fields {
 	 */
 	public class ArrayField implements IModelField {
 		public function getType() : String {
-			// TODO: Auto-generated method stub
-			return null;
+			return "Array";
 		}
 
 		public function toObject() : * {
+			
 		}
 
 		public function fromObject(obj : *) : void {

@@ -1,15 +1,14 @@
-package supply.core
-{
-	import supply.fields.NumberField;
+package supply.core {
+	import supply.core.ns.supply_internal;
 	import supply.fields.ArrayField;
 	import supply.fields.BooleanField;
+	import supply.fields.NumberField;
 	import supply.fields.StringField;
-	import supply.fields.UIntField;
-	import supply.fields.IntField;
+	import supply.fields.intField;
+	import supply.fields.uintField;
 	import supply.queries.Query;
-	import supply.queries.QueryValues;
+
 	import org.osflash.signals.ISignal;
-	import supply.core.ns.supply_internal;
 
 	supply_internal class SupplyMain
 	{
@@ -79,7 +78,7 @@ package supply.core
 								
 		public function SupplyMain()
 		{
-			registerFields( ArrayField, BooleanField, IntField, NumberField, StringField, UIntField  )
+			registerFields( ArrayField, BooleanField, intField, NumberField, StringField, uintField  )
 		}
 		
 		// ---------------------------------------------------------------

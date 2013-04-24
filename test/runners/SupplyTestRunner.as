@@ -1,5 +1,5 @@
 package runners {
-	import suites.SimplifiedSuite;
+	import suites.ModelsSuite;
 
 	import org.flexunit.internals.TraceListener;
 	import org.flexunit.runner.FlexUnitCore;
@@ -34,7 +34,7 @@ package runners {
 			//var request:Request = Request.methods( someClass, ["method1", "method2", "method3"] ).sortWith( someSorter ).filterWith( someFilter );
 			//core.run( request );
 			
-			core.run(SimplifiedSuite);
+			core.run(ModelsSuite);
 			//core.run(CoreTestSuite,ModelTestSuite, QueryTestSuite,SerializationTestSuite);
 		}
 	}

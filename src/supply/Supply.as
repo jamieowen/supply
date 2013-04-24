@@ -1,5 +1,6 @@
-package supply.core
+package supply
 {
+	import supply.core.SupplyMain;
 	import supply.core.ns.supply_internal;
 
 	use namespace supply_internal;

@@ -5,8 +5,8 @@ package supply.api {
 	 */
 	public interface IQuery
 	{
-		function filter(...properties):IQueryValues;
-		function exclude( ...properties ):IQueryValues;
+		function filter(...models):IQuery;
+		function exclude( ...models ):IQuery;
 		function map( func:Function ):IQuery;
 		
 		function all():QuerySet;

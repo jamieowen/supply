@@ -1,4 +1,4 @@
-package supply.core {
+package supply.core.utils {
 	/**
 	 * // taken from mx.utils.UIDUtil.
 	 * @author jamieowen

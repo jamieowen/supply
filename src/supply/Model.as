@@ -1,10 +1,10 @@
-package supply.base {
-	import supply.core.Fields;
-	import supply.core.uuid;
+package supply {
+	import org.osflash.signals.ISignal;
 	import org.osflash.signals.Signal;
 	import supply.api.IModel;
+	import supply.core.Fields;
+	import supply.core.utils.uuid;
 
-	import org.osflash.signals.ISignal;
 
 	public class Model implements IModel
 	{
@@ -17,7 +17,7 @@ package supply.base {
 		private var _onSync:ISignal;
 		
 		// ---------------------------------------------------------------
-		// >>PRIVATE VARIABLES
+		// >> PRIVATE VARIABLES
 		// ---------------------------------------------------------------		
 		private var _cuid:String;
 		private var _fields:Fields;

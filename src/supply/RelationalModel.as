@@ -1,5 +1,4 @@
-package supply.base {
-	import supply.base.Model;
+package supply {
 
 	public class RelationalModel extends Model 
 	{

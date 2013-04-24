@@ -1,5 +1,5 @@
 package mock.models {
-	import supply.base.Model;
+	import supply.Model;
 
 	public class PrimitivesOnlyModel extends Model
 	{
