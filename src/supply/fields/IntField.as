@@ -1,4 +1,5 @@
 package supply.fields {
+	import supply.api.IModel;
 	import supply.api.IModelField;
 
 	/**
@@ -6,15 +7,19 @@ package supply.fields {
 	 */
 	public class intField implements IModelField
 	{
-		public function getType() : String {
-			// TODO: Auto-generated method stub
-			return null;
+		public function getType() : String
+		{
+			return "int";
 		}
 
-		public function toObject() : * {
+		public function toObject(model:IModel,fieldName:String) : *
+		{
+			return model[fieldName];
 		}
 
-		public function fromObject(obj : *) : void {
+		public function fromObject(obj:Object,model:IModel,fieldName:String) : void
+		{
+			model[fieldName] = obj;
 		}
 	}
 }

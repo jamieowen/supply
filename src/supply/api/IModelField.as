@@ -4,7 +4,7 @@ package supply.api
 	public interface IModelField 
 	{
 		function getType():String;
-		function toObject():*;
-		function fromObject(obj:*):void;	
+		function toObject(model:IModel,fieldName:String):*;
+		function fromObject(obj:*,model:IModel,fieldName:String):void;	
 	}
 }

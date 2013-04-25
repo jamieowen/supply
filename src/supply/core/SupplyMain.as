@@ -1,4 +1,5 @@
 package supply.core {
+	import supply.api.IModelField;
 	import supply.core.ns.supply_internal;
 	import supply.fields.ArrayField;
 	import supply.fields.BooleanField;
@@ -7,9 +8,10 @@ package supply.core {
 	import supply.fields.intField;
 	import supply.fields.uintField;
 	import supply.queries.Query;
-
 	import org.osflash.signals.ISignal;
-
+	
+	use namespace supply_internal;
+	
 	supply_internal class SupplyMain
 	{
 		
@@ -78,19 +80,19 @@ package supply.core {
 								
 		public function SupplyMain()
 		{
-			registerFields( ArrayField, BooleanField, intField, NumberField, StringField, uintField  )
+			registerFields( ArrayField, BooleanField, intField, NumberField, StringField, uintField );
 		}
 		
 		// ---------------------------------------------------------------
 		// >> SUPPLY INTERNAL METHODS
 		// ---------------------------------------------------------------		
 		
-		supply_internal function setOperatingModelClass(model : Class) : void
+		supply_internal function pushOperatingModelClass(model : Class) : void
 		{
 			
 		}
 		
-		supply_internal function clearOperatingModelClass() : void
+		supply_internal function popOperatingModelClass() : void
 		{
 			
 		}		
@@ -99,9 +101,14 @@ package supply.core {
 		// >> PUBLIC METHODS
 		// ---------------------------------------------------------------
 		
-		public function registerFields( ...fields ):void
+		public function registerFields( ...fields ):Boolean
 		{
-			
+			return Fields.registerFields( fields );
+		}
+		
+		public function registerField( field:IModelField ):Boolean
+		{
+			return Fields.registerField(field);
 		}
 		
 		public function registerStorage( ...storage ):void

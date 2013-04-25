@@ -5,21 +5,21 @@ package supply.fields {
 	/**
 	 * @author jamieowen
 	 */
-	public class BooleanField implements IModelField
+	public class DateField implements IModelField
 	{
 		public function getType() : String
 		{
-			return "Boolean";
+			return "Date";
 		}
 
 		public function toObject(model:IModel,fieldName:String) : *
 		{
-			return model[fieldName];
+			return ( model[fieldName] as Date ).getTime();
 		}
 
 		public function fromObject(obj:Object,model:IModel,fieldName:String) : void
 		{
-			model[fieldName] = obj;
+			model[fieldName] = new Date(obj);
 		}
 	}
 }

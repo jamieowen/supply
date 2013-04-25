@@ -11,7 +11,15 @@ package supply.core {
 		
 		supply_internal static function getFieldForType(type:String):IModelField
 		{
-			return null;
+			for( var i:int = 0; i<_fields.length; i++ )
+			{
+				if( _fields[i].getType() == type )
+				{
+					return _fields[i];
+				}
+			}
+			
+			throw new Error("Cannot find the IModelField for type: " + type + ".  If it is a custom type, register the IModelField class for it first" );
 		}
 		
 		supply_internal static function registerField(field : IModelField) : Boolean
@@ -34,6 +42,23 @@ package supply.core {
 			}
 		}
 		
+		supply_internal static function registerFields(...fields):Boolean
+		{
+			if( fields == null ){
+				return false;	
+			}
+			
+			var field:IModelField;
+			var success:Boolean = true;
+			for( var i:int = 0; i<fields.length; i++ )
+			{
+				field = fields[fields] as IModelField;
+				success = success && registerField(field);
+			}
+			
+			return success;			
+		}
+		
 		// ---------------------------------------------------------------
 		// >> PRIVATE VARIABLES
 		// ---------------------------------------------------------------	
@@ -54,7 +79,7 @@ package supply.core {
 		// >> PRIVATE GETTERS
 		// ---------------------------------------------------------------
 		
-		private function get fields():Object		
+		private function get fieldsMap():Object		
 		{
 			if( _fields == null ){
 				_fields = buildFieldMap(_model)	;
@@ -80,17 +105,17 @@ package supply.core {
 			return null;
 		}
 		
-		public function getSyncValue(property:String):*
+		public function getSyncValue(fieldName:String):*
 		{
 			return null;
 		}
 		
-		public function isDirty( property:String = null ):Boolean
+		public function isDirty(fieldName:String = null ):Boolean
 		{
 			return null;
 		}
 		
-		public function getValue( property:String ):*
+		public function getValue(fieldName:String ):*
 		{
 			return null;
 		}
@@ -105,7 +130,7 @@ package supply.core {
 			
 		}
 		
-		public function getRelations(property:String = null):void
+		public function getRelations(fieldName:String = null):void
 		{
 			
 		}

@@ -5,21 +5,21 @@ package supply.fields {
 	/**
 	 * @author jamieowen
 	 */
-	public class BooleanField implements IModelField
+	public class XMLField implements IModelField
 	{
 		public function getType() : String
 		{
-			return "Boolean";
+			return "XML";
 		}
 
 		public function toObject(model:IModel,fieldName:String) : *
 		{
-			return model[fieldName];
+			return ( model[fieldName] as XML ).toString();
 		}
 
 		public function fromObject(obj:Object,model:IModel,fieldName:String) : void
 		{
-			model[fieldName] = obj;
+			model[fieldName] = new XML(obj);
 		}
 	}
 }
