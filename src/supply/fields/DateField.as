@@ -7,9 +7,9 @@ package supply.fields {
 	 */
 	public class DateField implements IModelField
 	{
-		public function getType() : String
+		public function handlesType(type:String) : Boolean
 		{
-			return "Date";
+			return type == "Date";
 		}
 
 		public function toObject(model:IModel,fieldName:String) : *

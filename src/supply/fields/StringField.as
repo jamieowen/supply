@@ -7,9 +7,9 @@ package supply.fields {
 	 */
 	public class StringField implements IModelField
 	{
-		public function getType() : String
+		public function handlesType(type:String) : Boolean
 		{
-			return "String";
+			return type == "String";
 		}
 
 		public function toObject(model:IModel,fieldName:String) : *

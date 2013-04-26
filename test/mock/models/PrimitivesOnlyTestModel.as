@@ -1,7 +1,7 @@
 package mock.models {
 	import supply.Model;
 
-	public class PrimitivesOnlyModel extends Model
+	public class PrimitivesOnlyTestModel extends Model
 	{
 		private static function getUnicode():String
 		{
@@ -34,16 +34,16 @@ package mock.models {
 		public var arrayField:Array = ARRAY_VALUE;
 		public var arrayMultiField:Array = ARRAYMULTI_VALUE;
 		 
-		public var vectorBooleanField:Vector.<Boolean> = new Vector.<Boolean>( BOOLEAN_VALUE, BOOLEAN_VALUE, BOOLEAN_VALUE );
-		public var vectorIntField:Vector.<int> = new Vector.<int>( INT_VALUE, INT_VALUE, INT_VALUE, INT_VALUE );
-		public var vectorUIntField:Vector.<uint> = new Vector.<uint>(UINT_VALUE, UINT_VALUE, UINT_VALUE, UINT_VALUE );
-		public var vectorNumberField:Vector.<Number> = new Vector.<Number>(NUMBER_VALUE, NUMBER_VALUE, NUMBER_VALUE, NUMBER_VALUE );
-		public var vectorStringField:Vector.<String> = new Vector.<String>( STRING_VALUE, STRING_VALUE, STRING_VALUE, STRING_VALUE );
-		public var vectorDateField:Vector.<Date> = new Vector.<Date>( DATE_VALUE, DATE_VALUE, DATE_VALUE, DATE_VALUE );
-		public var vectorXMLField:Vector.<XML> = new Vector.<XML>( XML_VALUE, XML_VALUE, XML_VALUE, XML_VALUE );
-		public var vectorArrayMultiField:Vector.<Array> = new Vector.<Array>( ARRAYMULTI_VALUE,ARRAYMULTI_VALUE,ARRAYMULTI_VALUE,ARRAYMULTI_VALUE );
+		public var vectorBooleanField:Vector.<Boolean> = new Vector.<Boolean>( [BOOLEAN_VALUE, BOOLEAN_VALUE, BOOLEAN_VALUE] );
+		public var vectorIntField:Vector.<int> = new Vector.<int>( [INT_VALUE, INT_VALUE, INT_VALUE, INT_VALUE] );
+		public var vectorUIntField:Vector.<uint> = new Vector.<uint>( [UINT_VALUE, UINT_VALUE, UINT_VALUE, UINT_VALUE] );
+		public var vectorNumberField:Vector.<Number> = new Vector.<Number>( [NUMBER_VALUE, NUMBER_VALUE, NUMBER_VALUE, NUMBER_VALUE] );
+		public var vectorStringField:Vector.<String> = new Vector.<String>( [STRING_VALUE, STRING_VALUE, STRING_VALUE, STRING_VALUE] );
+		public var vectorDateField:Vector.<Date> = new Vector.<Date>( [DATE_VALUE, DATE_VALUE, DATE_VALUE, DATE_VALUE] );
+		public var vectorXMLField:Vector.<XML> = new Vector.<XML>( [XML_VALUE, XML_VALUE, XML_VALUE, XML_VALUE] );
+		public var vectorArrayMultiField:Vector.<Array> = new Vector.<Array>( [ARRAYMULTI_VALUE,ARRAYMULTI_VALUE,ARRAYMULTI_VALUE,ARRAYMULTI_VALUE] );
 		
-		public function PrimitivesOnlyModel()
+		public function PrimitivesOnlyTestModel()
 		{
 			super();
 		}

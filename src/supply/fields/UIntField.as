@@ -7,9 +7,9 @@ package supply.fields {
 	 */
 	public class uintField implements IModelField
 	{
-		public function getType() : String
+		public function handlesType(type:String) : Boolean
 		{
-			return "uint";
+			return type == "uint";
 		}
 
 		public function toObject(model:IModel,fieldName:String) : *

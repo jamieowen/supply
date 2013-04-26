@@ -103,12 +103,12 @@ package supply.core {
 		
 		public function registerFields( ...fields ):Boolean
 		{
-			return Fields.registerFields( fields );
+			return ModelsManager.registerFields( fields );
 		}
 		
 		public function registerField( field:IModelField ):Boolean
 		{
-			return Fields.registerField(field);
+			return ModelsManager.registerField(field);
 		}
 		
 		public function registerStorage( ...storage ):void

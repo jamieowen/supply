@@ -7,9 +7,9 @@ package supply.fields {
 	 */
 	public class XMLField implements IModelField
 	{
-		public function getType() : String
+		public function handlesType(type:String) : Boolean
 		{
-			return "XML";
+			return type == "XML";
 		}
 
 		public function toObject(model:IModel,fieldName:String) : *
