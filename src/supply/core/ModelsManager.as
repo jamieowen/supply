@@ -1,4 +1,5 @@
 package supply.core {
+	import supply.Supply;
 	import supply.api.IModel;
 	import supply.core.ns.supply_internal;
 
@@ -6,17 +7,22 @@ package supply.core {
 	import flash.utils.describeType;
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
-
+	
 	use namespace supply_internal;
 		
 	/**
 	 * @author jamieowen
 	 */
-	supply_internal class ModelsManager
+	public class ModelsManager
 	{
-		private static var _reflectModelCache:Dictionary;
-				
-		public static function reflectModelClass(model:Class) : ReflectedModel
+		private var _reflectModelCache:Dictionary;
+		
+		public function ModelsManager()
+		{		
+			
+		}
+		
+		public function reflectModelClass(model:Class) : ReflectedModel
 		{
 			if( _reflectModelCache == null ){
 				_reflectModelCache = new Dictionary();
@@ -81,14 +87,15 @@ package supply.core {
 					
 					field = new ReflectedField();
 					field.name = element.@name;
-					field.type = element.@type;					
-					trace( field.type );
+					field.type = element.@type;
+					field.fieldHandler = Supply().fieldsManager.getFieldForType(field.type);
+					if( field.fieldHandler == null ){
+						Supply().warn( "No IModelField Handler for type : " + field.type );
+					}
 					fields.push( field );
 				}
 				
 				reflectedModel = new ReflectedModel(model, fields);
-				
-				
 				_reflectModelCache[model] = reflectedModel;	
 				return reflectedModel;				
 			}
@@ -96,18 +103,21 @@ package supply.core {
 
 		}
 		
-		public static function reflectModelInstance(model:IModel) : ReflectedModel
+		public function reflectModelInstance(model:IModel) : ReflectedModel
 		{
 			const cls:Class = getDefinitionByName( getQualifiedClassName(model) ) as Class;
 			return reflectModelClass(cls);
 		}			
 	}
 }
+import flash.utils.getQualifiedClassName;
+import supply.api.IModelField;
 
 internal class ReflectedField
 {
 	public var name:String;
 	public var type:String;
+	public var fieldHandler:IModelField;
 		
 	public function ReflectedField():void
 	{
@@ -116,7 +126,7 @@ internal class ReflectedField
 		
 	public function toString():String
 	{
-		return "[ModelProperty(name='" + name + "', type='" + type + "' )]";
+		return "[ModelField(name='" + name + "', type='" + type + "' )]";
 	}
 }
 
@@ -126,6 +136,12 @@ internal class ReflectedModel
 	private var _storageClass:Class;
 	private var _model:Class;
 	private var _fieldNames:Array; // a simple look up for just field names.
+	private var _fieldNamesToFieldHandler:Object; // a lookup for a fieldname to its IModelField handler.
+	
+	public function getFieldHandler(fieldName:String):IModelField
+	{
+		return _fieldNamesToFieldHandler[fieldName] as IModelField;
+	}
 	
 	public function get model():Class
 	{	
@@ -153,8 +169,13 @@ internal class ReflectedModel
 		_fields = fields;
 		_fieldNames = [];
 			
+		_fieldNamesToFieldHandler = {};
+		
+		var field:ReflectedField;
 		for( var i:int = 0; i<_fields.length; i++ ){
-			_fieldNames.push( _fields[i].name );	
+			field = _fields[i];
+			_fieldNames.push( field.name );
+			_fieldNamesToFieldHandler[field.name] = field.fieldHandler;
 		}
 	}	
 }

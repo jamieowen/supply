@@ -12,14 +12,23 @@ package supply.fields {
 			return type == "XML";
 		}
 
-		public function toObject(model:IModel,fieldName:String) : *
+		public function toObject(value:*) : *
 		{
-			return ( model[fieldName] as XML ).toString();
+			var xml:XML = value as XML;
+			if( xml ){
+				return xml.toString();	
+			}else{
+				return null;
+			}
 		}
 
-		public function fromObject(obj:Object,model:IModel,fieldName:String) : void
+		public function fromObject(value:*, type:String) : *
 		{
-			model[fieldName] = new XML(obj);
+			if( value is String ){
+				return new XML(value);
+			}else{
+				return null;
+			}
 		}
 	}
 }

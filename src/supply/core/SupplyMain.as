@@ -1,18 +1,21 @@
 package supply.core {
+	import supply.fields.DateField;
 	import supply.api.IModelField;
 	import supply.core.ns.supply_internal;
 	import supply.fields.ArrayField;
 	import supply.fields.BooleanField;
 	import supply.fields.NumberField;
 	import supply.fields.StringField;
+	import supply.fields.VectorField;
+	import supply.fields.XMLField;
 	import supply.fields.intField;
 	import supply.fields.uintField;
-	import supply.queries.Query;
+
 	import org.osflash.signals.ISignal;
 	
 	use namespace supply_internal;
 	
-	supply_internal class SupplyMain
+	public class SupplyMain
 	{
 		
 		// ---------------------------------------------------------------
@@ -21,7 +24,7 @@ package supply.core {
 			
 		private static var _instance:SupplyMain;
 		
-		supply_internal static function getInstance():SupplyMain
+		public static function getInstance():SupplyMain
 		{
 			if( !_instance ){
 				_instance = new SupplyMain();
@@ -38,7 +41,10 @@ package supply.core {
 		private var _onSync:ISignal;
 		private var _onSaved:ISignal;
 		private var _onDeleted:ISignal;
-		private var _onSynced:ISignal;		
+		private var _onSynced:ISignal;
+		
+		private var _fieldsManager:FieldsManager;
+		private var _modelsManager:ModelsManager;		
 		
 		// ---------------------------------------------------------------
 		// >> PUBLIC GETTERS
@@ -80,7 +86,10 @@ package supply.core {
 								
 		public function SupplyMain()
 		{
-			registerFields( ArrayField, BooleanField, intField, NumberField, StringField, uintField );
+			_fieldsManager = new FieldsManager();
+			_modelsManager = new ModelsManager();
+			
+			registerFields( BooleanField, intField, uintField, NumberField, StringField, XMLField, DateField, ArrayField, VectorField );
 		}
 		
 		// ---------------------------------------------------------------
@@ -95,6 +104,21 @@ package supply.core {
 		supply_internal function popOperatingModelClass() : void
 		{
 			
+		}
+		
+		supply_internal function get fieldsManager() : FieldsManager
+		{
+			return _fieldsManager;
+		}
+	
+		supply_internal function get modelsManager() : ModelsManager
+		{
+			return _modelsManager;
+		}
+		
+		supply_internal function warn(message:*) : void
+		{
+			trace( "(Supply) warn : " + message );
 		}		
 		
 		// ---------------------------------------------------------------
@@ -103,12 +127,12 @@ package supply.core {
 		
 		public function registerFields( ...fields ):Boolean
 		{
-			return ModelsManager.registerFields( fields );
+			return fieldsManager.registerFields.apply( _fieldsManager, fields );
 		}
 		
 		public function registerField( field:IModelField ):Boolean
 		{
-			return ModelsManager.registerField(field);
+			return fieldsManager.registerField(field);
 		}
 		
 		public function registerStorage( ...storage ):void
@@ -116,9 +140,9 @@ package supply.core {
 						
 		}
 		
-		public function get query():Query
+		/**public function get query():Query
 		{			
 			return null;
-		}
+		}**/
 	}
 }

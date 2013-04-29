@@ -1,4 +1,4 @@
-package supply
+package supply 
 {
 	import supply.core.SupplyMain;
 	import supply.core.ns.supply_internal;
@@ -10,9 +10,9 @@ package supply
 	 * 
 	 * @author jamieowen
 	 */
-	public function Supply(model:Class) : SupplyMain {
+	public function Supply(model:Class=null) : SupplyMain {
 		var main : SupplyMain = SupplyMain.getInstance();
-		main.setOperatingModelClass(model);
+		//main.setOperatingModelClass(model);
 		return main;
 	}
 }

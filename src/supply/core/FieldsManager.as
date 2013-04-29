@@ -1,28 +1,36 @@
 package supply.core
 {
 	import supply.api.IModelField;
-	import supply.core.ns.supply_internal;
-
-	use namespace supply_internal;
 	
-	supply_internal class FieldsManager
+	public class FieldsManager
 	{
-		private static var _fieldTypes:Vector.<IModelField>;
+		private var _fieldTypes:Vector.<IModelField>;
 		
-		public static function getFieldForType(type:String):IModelField
+		public function FieldsManager()
 		{
+			
+		}
+		
+		public function getFieldForType(type:String):IModelField
+		{
+			if( type == null ){
+				return null;
+			}
+			
 			for( var i:int = 0; i<_fieldTypes.length; i++ )
 			{
-				if( _fieldTypes[i].getType() == type )
+				if( _fieldTypes[i].handlesType(type) )
 				{
 					return _fieldTypes[i];
 				}
 			}
 			
-			throw new Error("Cannot find the IModelField for type: " + type + ".  If it is a custom type, register the IModelField class for it first" );
+			return null;
+			
+			// throw new Error("Cannot find the IModelField for type: " + type + ".  If it is a custom type, register the IModelField class for it first" );
 		}
 		
-		public static function registerField(field : IModelField) : Boolean
+		public function registerField(field : IModelField) : Boolean
 		{ 
 			if( !field ){
 				return false;
@@ -31,18 +39,21 @@ package supply.core
 				_fieldTypes = new Vector.<IModelField>();
 			}
 			
-			if( getFieldForType(field.getType()) == null )
+			_fieldTypes.push(field);
+			return true;
+			
+			/**if( getFieldForType(field.getType()) == null )
 			{
-				_fieldTypes.push(field);
+				
 				return true;
 			}else
 			{
 				throw new Error("Cannot register Field.  Field type already has a handler for it.");
 				return false;
-			}
+			}**/
 		}
 		
-		public static function registerFields(...fields):Boolean
+		public function registerFields(...fields):Boolean
 		{
 			if( fields == null ){
 				return false;	
@@ -50,9 +61,16 @@ package supply.core
 			
 			var field:IModelField;
 			var success:Boolean = true;
+			var fieldAsClass:Class;
 			for( var i:int = 0; i<fields.length; i++ )
 			{
-				field = fields[fields] as IModelField;
+				fieldAsClass = fields[i] as Class;
+				if( fieldAsClass ){
+					field = new fieldAsClass();
+				}else{
+					field = fields[i] as IModelField;	
+				}
+				
 				success = success && registerField(field);
 			}
 			

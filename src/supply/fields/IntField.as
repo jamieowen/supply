@@ -12,14 +12,22 @@ package supply.fields {
 			return type == "int";
 		}
 
-		public function toObject(model:IModel,fieldName:String) : *
+		public function toObject(value:*, type:String) : *
 		{
-			return model[fieldName];
+			if( value is int ){
+				return value;	
+			}else{
+				return null;
+			}
 		}
 
-		public function fromObject(obj:Object,model:IModel,fieldName:String) : void
+		public function fromObject(value:*, type:String) : *
 		{
-			model[fieldName] = obj;
+			if( value is int ){
+				return value;
+			}else{
+				return null;
+			}
 		}
 	}
 }

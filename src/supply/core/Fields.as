@@ -1,4 +1,7 @@
 package supply.core {
+	import flash.utils.getQualifiedClassName;
+	import supply.api.IModelField;
+	import supply.Supply;
 	import supply.api.IModel;
 
 	import supply.core.ns.supply_internal;
@@ -14,6 +17,7 @@ package supply.core {
 		// ---------------------------------------------------------------	
 				
 		private var _model:IModel;
+		private var _syncValues:Object;
 		
 		// ---------------------------------------------------------------
 		// >> PUBLIC GETTERS
@@ -21,12 +25,12 @@ package supply.core {
 		
 		public function get numFields():uint
 		{
-			return ModelsManager.reflectModelInstance(_model).fieldNames.length;
+			return Supply().modelsManager.reflectModelInstance(_model).fieldNames.length;
 		}
 		
 		public function get fieldNames():Array
 		{
-			return ModelsManager.reflectModelInstance(_model).fieldNames;
+			return Supply().modelsManager.reflectModelInstance(_model).fieldNames;
 		}
 		
 						
@@ -37,6 +41,7 @@ package supply.core {
 		public function Fields(model:IModel)
 		{
 			_model = model;
+			_syncValues = {};
 		}
 		
 		// ---------------------------------------------------------------
@@ -48,32 +53,113 @@ package supply.core {
 		 */
 		public function getFieldNameAt(index:uint):String
 		{
-			return ModelsManager.reflectModelInstance(_model).fieldNames[index];
+			return Supply().modelsManager.reflectModelInstance(_model).fieldNames[index];
 		}
 		
+		/**
+		 * Returns the value a field at the time of last sync.
+		 */
 		public function getSyncValue(fieldName:String):*
 		{
-			return null;
+			return _syncValues[fieldName];
 		}
 		
+		/**
+		 * 
+		 */
+		private function setSyncValue(fieldName:String,value:*):void
+		{
+			_syncValues[fieldName] = value;
+		}
+		
+		/**
+		 * Tests if the field is dirty and is different from the value at the time of last sync.
+		 * If no field is specified then all fields are tested to check if the IModel instance is dirty.
+		 */
 		public function isDirty(fieldName:String = null ):Boolean
 		{
-			return null;
+			var dirty:Boolean = false;
+			
+			if( fieldName == null ){
+				var fields:Array = fieldNames;
+				for( var i:int = 0; i<fields.length; i++ ){
+					fieldName = fields[i];
+					dirty = getSyncValue( fieldName ) != getSerializedValue( fieldName ); 
+					if( dirty ){
+						break;
+					}
+				}
+			}else{
+				dirty = getSyncValue( fieldName ) != getSerializedValue( fieldName ); 	
+			}
+			
+			return dirty; 
 		}
 		
+		/**
+		 * Returns the value of the field after serialization by the IModelField handler.
+		 */
+		public function getSerializedValue( fieldName:String ):*
+		{
+			var fieldHandler:IModelField = Supply().modelsManager.reflectModelInstance(_model).getFieldHandler(fieldName);
+			if( fieldHandler ){
+				return fieldHandler.toObject( _model[fieldName] );	
+			}else{
+				Supply().warn( "The field, " + fieldName + " of IModel, + " + getQualifiedClassName(_model) + " could not be serialized. Define and register a custom IModelField handler if this is a custom field type." );
+				return null;
+			}
+		}
+		
+		/**
+		 * Returns the value of the field as it stands in the IModel presently.
+		 * Same as accessing the field property directly.
+		 */
 		public function getValue(fieldName:String ):*
 		{
 			return _model[fieldName];
 		}
 		
+		/**
+		 * Serializes the IModel instance to a typed Object.
+		 */
 		public function toObject():Object
 		{
-			return null;
+			var fieldNames:Array = fieldNames;
+			var field:String;
+			var serialized:Object = {};
+			for( var i:int = 0; i<fieldNames.length; i++ )
+			{
+				field = fieldNames[i];
+				serialized[field] = getSerializedValue(field);
+			}
+			
+			return serialized;
 		}
 		
-		public function fromObject(object:Object):void
+		/**
+		 * Populates the IModel instance by deserializing a typed Object.
+		 * Also populates the sync values with the last received serialized values.
+		 * Serialized values are used for sync values as it's easier to test equality on 
+		 * lower level typed objects rather than custom deserialized types.
+		 */
+		public function fromObject(serialized:Object):void
 		{
+			var fieldNames:Array = fieldNames;
+			var fieldName:String;
+			var fieldHandler:IModelField;
+			var deserializedValue:*;
+			var serializedValue:*;
 			
+			for( var i:int = 0; i<fieldNames.length; i++ )
+			{
+				fieldName = fieldNames[i];
+				fieldHandler = Supply().modelsManager.reflectModelInstance(_model).getFieldHandler(fieldName);
+				serializedValue = serialized[fieldName];
+				setSyncValue(fieldName, serializedValue);
+				
+				deserializedValue = fieldHandler.fromObject(serializedValue);
+				_model[fieldName] = deserializedValue;
+			}
 		}
 		
 		

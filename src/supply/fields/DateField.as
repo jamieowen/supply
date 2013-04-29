@@ -12,14 +12,23 @@ package supply.fields {
 			return type == "Date";
 		}
 
-		public function toObject(model:IModel,fieldName:String) : *
+		public function toObject(value:*, type:String) : *
 		{
-			return ( model[fieldName] as Date ).getTime();
+			var date:Date = value as Date;
+			if( date ){
+				return date.getTime();	
+			}else{
+				return null;
+			}
 		}
 
-		public function fromObject(obj:Object,model:IModel,fieldName:String) : void
+		public function fromObject(value:*, type:String) : *
 		{
-			model[fieldName] = new Date(obj);
+			if( value is Number){
+				return new Date( value );
+			}else{
+				return null;
+			}
 		}
 	}
 }
