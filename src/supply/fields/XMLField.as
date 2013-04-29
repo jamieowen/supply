@@ -1,5 +1,4 @@
 package supply.fields {
-	import supply.api.IModel;
 	import supply.api.IModelField;
 
 	/**
@@ -12,7 +11,7 @@ package supply.fields {
 			return type == "XML";
 		}
 
-		public function toObject(value:*) : *
+		public function toObject(value:*, type:String) : *
 		{
 			var xml:XML = value as XML;
 			if( xml ){

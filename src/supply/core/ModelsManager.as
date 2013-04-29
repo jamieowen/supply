@@ -2,6 +2,8 @@ package supply.core {
 	import supply.Supply;
 	import supply.api.IModel;
 	import supply.core.ns.supply_internal;
+	import supply.core.reflect.ReflectedField;
+	import supply.core.reflect.ReflectedModel;
 
 	import flash.utils.Dictionary;
 	import flash.utils.describeType;
@@ -110,73 +112,7 @@ package supply.core {
 		}			
 	}
 }
-import flash.utils.getQualifiedClassName;
-import supply.api.IModelField;
 
-internal class ReflectedField
-{
-	public var name:String;
-	public var type:String;
-	public var fieldHandler:IModelField;
-		
-	public function ReflectedField():void
-	{
-			
-	}
-		
-	public function toString():String
-	{
-		return "[ModelField(name='" + name + "', type='" + type + "' )]";
-	}
-}
 
-internal class ReflectedModel
-{
-	private var _fields:Vector.<ReflectedField>;
-	private var _storageClass:Class;
-	private var _model:Class;
-	private var _fieldNames:Array; // a simple look up for just field names.
-	private var _fieldNamesToFieldHandler:Object; // a lookup for a fieldname to its IModelField handler.
-	
-	public function getFieldHandler(fieldName:String):IModelField
-	{
-		return _fieldNamesToFieldHandler[fieldName] as IModelField;
-	}
-	
-	public function get model():Class
-	{	
-		return _model;	
-	}
-	
-	public function get fieldNames():Array
-	{
-		return _fieldNames;
-	}
-	
-	public function get fields():Vector.<ReflectedField>
-	{
-		return _fields;
-	}
-		
-	public function get storageClass():Class
-	{
-		return _storageClass;
-	}
-		
-	public function ReflectedModel(model:Class, fields:Vector.<ReflectedField>)
-	{
-		_model = model;
-		_fields = fields;
-		_fieldNames = [];
-			
-		_fieldNamesToFieldHandler = {};
-		
-		var field:ReflectedField;
-		for( var i:int = 0; i<_fields.length; i++ ){
-			field = _fields[i];
-			_fieldNames.push( field.name );
-			_fieldNamesToFieldHandler[field.name] = field.fieldHandler;
-		}
-	}	
-}
+
 	

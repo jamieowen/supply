@@ -1,4 +1,6 @@
 package supply.core {
+	import supply.core.reflect.ReflectedField;
+	import supply.core.reflect.ReflectedModel;
 	import flash.utils.getQualifiedClassName;
 	import supply.api.IModelField;
 	import supply.Supply;
@@ -101,9 +103,14 @@ package supply.core {
 		 */
 		public function getSerializedValue( fieldName:String ):*
 		{
-			var fieldHandler:IModelField = Supply().modelsManager.reflectModelInstance(_model).getFieldHandler(fieldName);
+			var reflectedModel:ReflectedModel = Supply().modelsManager.reflectModelInstance(_model);
+			var field:ReflectedField = reflectedModel.getField(fieldName);
+			
+			var fieldHandler:IModelField = reflectedModel.getFieldHandler(fieldName);
+			var fieldType:String = field.type;
+			
 			if( fieldHandler ){
-				return fieldHandler.toObject( _model[fieldName] );	
+				return fieldHandler.toObject( _model[fieldName], fieldType );	
 			}else{
 				Supply().warn( "The field, " + fieldName + " of IModel, + " + getQualifiedClassName(_model) + " could not be serialized. Define and register a custom IModelField handler if this is a custom field type." );
 				return null;
@@ -150,14 +157,21 @@ package supply.core {
 			var deserializedValue:*;
 			var serializedValue:*;
 			
+			var reflectedModel:ReflectedModel = Supply().modelsManager.reflectModelInstance(_model);
+			var field:ReflectedField;
+			var fieldType:String;
+			
 			for( var i:int = 0; i<fieldNames.length; i++ )
 			{
 				fieldName = fieldNames[i];
-				fieldHandler = Supply().modelsManager.reflectModelInstance(_model).getFieldHandler(fieldName);
+				field = reflectedModel.getField(fieldName);
+				fieldHandler = field.fieldHandler;
+				fieldType = field.type;
+				
 				serializedValue = serialized[fieldName];
 				setSyncValue(fieldName, serializedValue);
 				
-				deserializedValue = fieldHandler.fromObject(serializedValue);
+				deserializedValue = fieldHandler.fromObject(serializedValue, fieldType);
 				_model[fieldName] = deserializedValue;
 			}
 		}

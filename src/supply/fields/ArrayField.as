@@ -23,15 +23,15 @@ package supply.fields {
 			var array:Array = value as Array;
 			var item:*;
 			var i:int;
-			var type:String;
+			var arrayItemType:String;
 			var handler:IModelField;
 			var serialized:Array = [];
 			for( i = 0; i<array.length; i++ ){
 				item = array[i];
-				type = getQualifiedClassName(item);
-				handler = Supply().fieldsManager.getFieldForType(type);
+				arrayItemType = getQualifiedClassName(item);
+				handler = Supply().fieldsManager.getFieldForType(arrayItemType);
 				if( handler ){
-					serialized.push( handler.toObject(array[i]) );
+					serialized.push( handler.toObject(array[i], arrayItemType) );
 				}else{
 					Supply().warn("An objects type found in an Array when serializing is not supported. Type : " + type );
 					return serialized.push( null );

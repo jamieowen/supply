@@ -1,4 +1,5 @@
 package supply.fields {
+	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
 	import supply.Supply;
 	import supply.api.IModel;
@@ -35,9 +36,7 @@ package supply.fields {
 
 		public function toObject(value:*, type:String) : *
 		{
-			var type:String = getQualifiedClassName(value);
 			var vectorType:String = getVectorTypeString(type);
-			
 			var handler:IModelField = Supply().fieldsManager.getFieldForType(vectorType);
 			
 			if( handler )
@@ -47,7 +46,7 @@ package supply.fields {
 				var i:int;
 				for( i = 0; i<value.length; i++ ){
 					item = value[i];
-					serialized.push( handler.toObject(item) );
+					serialized.push( handler.toObject(item, type) );
 				}
 				return serialized; 	
 			}else{
@@ -58,20 +57,25 @@ package supply.fields {
 
 		public function fromObject(value:*, type:String) : *
 		{
+			var vectorType:String = getVectorTypeString(type);
+			var handler:IModelField = Supply().fieldsManager.getFieldForType(vectorType);
+			
 			if( value is Array ){
 				var i:int;
 				var item:*;
 				var a:Array = value as Array;
 				var c:Class;
-				var deserialized:Vector.<*> = new Vector.<*>();
+				// create a vector of the type specified by type.
+				var vectorClass:Class = getDefinitionByName( type ) as Class;
+				var deserializedVector:* = new vectorClass();
 				
 				for( i = 0; i<a.length; i++ )
 				{
 					item = a[i];
-					deserialized.push( item );					
+					deserializedVector.push( handler.fromObject(item, getQualifiedClassName(item) ) );					
 				}
 				
-				return deserialized; 
+				return deserializedVector;
 			}else{
 				return null;
 			}

@@ -184,10 +184,10 @@ package tests.models
 			var primitivesModel:PrimitivesOnlyTestModel = new PrimitivesOnlyTestModel();
 			primitivesModel.populateDefaults();
 			
-			//var serializedModel:Object = primitivesModel.fields.toObject();
-			//var unpopulatedPrimitivesModel:PrimitivesOnlyTestModel = new PrimitivesOnlyTestModel();
+			var serializedModel:Object = primitivesModel.fields.toObject();
+			var unpopulatedPrimitivesModel:PrimitivesOnlyTestModel = new PrimitivesOnlyTestModel();
 			
-			//unpopulatedPrimitivesModel.fields.fromObject( serializedModel );
+			unpopulatedPrimitivesModel.fields.fromObject( serializedModel );
 			
 			trace( "TEST DESERIALIZED" );
 			
