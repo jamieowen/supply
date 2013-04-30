@@ -1,5 +1,4 @@
 package supply.fields {
-	import supply.api.IModel;
 	import supply.api.IModelField;
 
 	/**
@@ -28,6 +27,14 @@ package supply.fields {
 			}else{
 				return null;
 			}
+		}
+	
+		public function isEqual(obj1:*,obj2:*, type:String):Boolean
+		{
+			if( obj1 is int && obj2 is int ){
+				return obj1 == obj2;
+			}else
+				return false;
 		}
 	}
 }

@@ -30,7 +30,7 @@ package supply.fields {
 			if( field ){
 				return true;
 			}else{
-				return false;	
+				return false;
 			}
 		}
 
@@ -41,6 +41,9 @@ package supply.fields {
 			
 			if( handler )
 			{
+				if( value == null ){
+					return null;
+				}
 				var serialized:Array = [];
 				var item:*;
 				var i:int;
@@ -60,6 +63,8 @@ package supply.fields {
 			var vectorType:String = getVectorTypeString(type);
 			var handler:IModelField = Supply().fieldsManager.getFieldForType(vectorType);
 			
+			// Vectors are saved as arrays, but we can cast to the correct
+			// type by using the Vectors Field handler.
 			if( value is Array ){
 				var i:int;
 				var item:*;
@@ -80,5 +85,26 @@ package supply.fields {
 				return null;
 			}
 		}
+		
+		public function isEqual(obj1:*,obj2:*, type:String):Boolean
+		{
+			if( obj1 is Array && obj2 is Array ){
+				var vectorType:String = getVectorTypeString(type);
+				var handler:IModelField = Supply().fieldsManager.getFieldForType(vectorType);
+							
+				var a1:Array = obj1;
+				var a2:Array = obj2;
+				
+				var equal:Boolean = a1.length == a2.length;
+				
+				for( var i:int = 0; i<a1.length && equal; i++ )
+				{
+					equal = equal && handler.isEqual(a1[i], a2[i],vectorType);
+				}
+				
+				return equal;
+			}else
+				return false;
+		}		
 	}
 }

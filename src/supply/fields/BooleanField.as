@@ -29,5 +29,14 @@ package supply.fields {
 				return null;
 			}
 		}
+		
+		public function isEqual(obj1:*,obj2:*, type:String):Boolean
+		{
+			if( obj1 is Boolean && obj2 is Boolean ){
+				return obj1 == obj2;
+			}else
+				return false; 
+		}
+
 	}
 }

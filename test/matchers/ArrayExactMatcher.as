@@ -1,4 +1,5 @@
 package matchers {
+	import avmplus.getQualifiedClassName;
 	import org.hamcrest.Description;
 	import org.hamcrest.BaseMatcher;
 
@@ -32,21 +33,58 @@ package matchers {
 					return false;	
 				}
 				
+				var testObjectsAreEqual:Function = function(obj1:*,obj2:*):Boolean
+				{
+					var equal:Boolean = true;
+					var type1:String = getQualifiedClassName(obj1);
+					var type2:String = getQualifiedClassName(obj2);
+					var matcher:ArrayExactMatcher;
+					
+					if( type1 != type2 ){
+						equal = false;			
+					}else
+					if( type1 == "Array" )
+					{
+						matcher = new ArrayExactMatcher(obj2);
+						equal = equal && matcher.matches(obj1);
+					}else
+					if( type1 == "XML" ){
+						equal = (obj1 as XML).toString() == (obj2 as XML).toString();	
+					}else
+					if( type1 == "Date" ){
+						equal = (obj1 as Date).getTime() == (obj2 as Date).getTime();	
+					}else
+					if( type1 == "Object"){
+						var key:String;
+						var keyCount1:int = 0;
+						var keyCount2:int = 0;
+						for each( key in obj1 ){
+							keyCount1++;
+						}
+						for each( key in obj2 ){
+							keyCount2++;
+						}
+						if( keyCount1 != keyCount2 ){
+							equal = false;					
+						}else{
+							for each( key in obj1 ){
+								equal = testObjectsAreEqual(obj1[key], obj2[key]);
+							}
+						}
+					}else 
+					if( obj1 !== obj2 ) {
+						equal = false;
+					}
+					return equal;
+				};
+				
 				var match:Boolean = true;
-				var matcher:ArrayExactMatcher;
 				for( var i:int = 0; i<a.length; i++ )	
 				{
-					if( a[i] is Array )
-					{
-						matcher = new ArrayExactMatcher(_items[i]);
-						match = match && matcher.matches(a[i]);
-					}else{
-						match = match && ( a[i] == _items[i] );
-					}
+					match = testObjectsAreEqual(a[i], _items[i]);
 					if( !match )
-						break; 	
+						break;
 				}
-				
 				return match;
 			}else
 			{

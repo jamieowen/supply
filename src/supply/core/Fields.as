@@ -42,8 +42,14 @@ package supply.core {
 				
 		public function Fields(model:IModel)
 		{
+			if( model == null ){
+				throw new Error("A Fields instance must have a specified Model instance.");
+			}
 			_model = model;
 			_syncValues = {};
+			
+			// TODO : could defer this.
+			populateSyncValues();
 		}
 		
 		// ---------------------------------------------------------------
@@ -81,18 +87,36 @@ package supply.core {
 		public function isDirty(fieldName:String = null ):Boolean
 		{
 			var dirty:Boolean = false;
+			var reflectedModel:ReflectedModel = Supply().modelsManager.reflectModelInstance(_model);
+			var fieldHandler:IModelField;
+			var field:ReflectedField;
+			var syncValue:*;
 			
 			if( fieldName == null ){
 				var fields:Array = fieldNames;
+
 				for( var i:int = 0; i<fields.length; i++ ){
 					fieldName = fields[i];
-					dirty = getSyncValue( fieldName ) != getSerializedValue( fieldName ); 
+					field = reflectedModel.getField(fieldName);
+					fieldHandler = field.fieldHandler;
+					syncValue = getSyncValue(fieldName);
+					
+					dirty = !( (syncValue == null ) && ( fieldHandler.isEqual( syncValue, getSerializedValue( fieldName ), field.type ) ) );
+					 
 					if( dirty ){
 						break;
 					}
 				}
 			}else{
-				dirty = getSyncValue( fieldName ) != getSerializedValue( fieldName ); 	
+				field = reflectedModel.getField(fieldName);
+				
+				if( !field )
+					return false;
+				
+				syncValue = getSyncValue(fieldName);
+				fieldHandler = field.fieldHandler;
+				
+				dirty = !( (syncValue == null ) && ( fieldHandler.isEqual( syncValue, getSerializedValue( fieldName ), field.type ) ) );
 			}
 			
 			return dirty; 
@@ -180,6 +204,17 @@ package supply.core {
 		// ---------------------------------------------------------------
 		// >> PRIVATE METHODS
 		// ---------------------------------------------------------------
+		
+		private function populateSyncValues():void
+		{
+			var fieldNames:Array = fieldNames;
+			var fieldName:String;
+			for( var i:int = 0; i<fieldNames.length; i++ )
+			{
+				fieldName = fieldNames[i];
+				setSyncValue(fieldName, null );	
+			}
+		}
 		
 	}
 }
