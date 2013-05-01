@@ -1,4 +1,4 @@
-package supply.core
+package supply.core.managers
 {
 	import supply.api.IStorage;
 	import supply.Supply;

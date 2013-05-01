@@ -1,4 +1,4 @@
-package supply.core {
+package supply.core.managers {
 	import supply.Supply;
 	import supply.api.IModel;
 	import supply.core.ns.supply_internal;
