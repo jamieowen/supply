@@ -4,7 +4,9 @@ package supply {
 	import supply.api.IModel;
 	import supply.core.Fields;
 	import supply.core.utils.uuid;
-
+	import supply.core.ns.supply_internal;
+	
+	use namespace supply_internal;
 
 	public class Model implements IModel
 	{
@@ -22,7 +24,6 @@ package supply {
 		private var _cuid:String;
 		private var _fields:Fields;
 		
-		
 		// ---------------------------------------------------------------
 		// >> SIGNAL GETTERS
 		// ---------------------------------------------------------------
@@ -33,18 +34,27 @@ package supply {
 		[Supply(store=false)]
 		public function get onSave() : ISignal
 		{
+			if( _onSave == null )
+				_onSave = new Signal(IModel);
+			
 			return _onSave;
 		}
 		
 		[Supply(store=false)]
 		public function get onDelete() : ISignal
 		{
+			if( _onDelete == null )
+				_onDelete = new Signal(IModel);
+		
 			return _onDelete;
 		}
 		
 		[Supply(store=false)]
 		public function get onSync():ISignal
 		{
+			if( _onSync == null )
+				_onSync = new Signal(IModel);
+							
 			return _onSync;
 		}
 		
@@ -66,9 +76,7 @@ package supply {
 				
 		public function Model()
 		{
-			 _onSave = new Signal(IModel);
-			 _onDelete = new Signal(IModel);
-			 _onSync = new Signal(IModel);
+			
 		}
 		
 		// ---------------------------------------------------------------
@@ -77,17 +85,17 @@ package supply {
 				
 		public function save() : void
 		{
-			
+			Supply().save(this);
 		}
 
 		public function del() : void
 		{
-			
+			Supply().del(this);
 		}
 		
 		public function sync():void
 		{
-			
+			Supply().sync(this);
 		}
 		
 		// ---------------------------------------------------------------
@@ -97,18 +105,10 @@ package supply {
 		
 		public function get fields():Fields
 		{
-			if( !_fields ){
+			if( !_fields )
 				_fields = new Fields(this);
-			}
 			
 			return _fields;
 		}
-		
-		
-		/**public function validation():*
-		{
-			// different release...
-			// later...			
-		}**/
 	}
 }

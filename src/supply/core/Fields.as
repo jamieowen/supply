@@ -27,12 +27,12 @@ package supply.core {
 		
 		public function get numFields():uint
 		{
-			return Supply().modelsManager.reflectModelInstance(_model).fieldNames.length;
+			return Supply().modelsManager.reflect(_model).fieldNames.length;
 		}
 		
 		public function get fieldNames():Array
 		{
-			return Supply().modelsManager.reflectModelInstance(_model).fieldNames;
+			return Supply().modelsManager.reflect(_model).fieldNames;
 		}
 		
 						
@@ -61,7 +61,7 @@ package supply.core {
 		 */
 		public function getFieldNameAt(index:uint):String
 		{
-			return Supply().modelsManager.reflectModelInstance(_model).fieldNames[index];
+			return Supply().modelsManager.reflect(_model).fieldNames[index];
 		}
 		
 		/**
@@ -87,7 +87,7 @@ package supply.core {
 		public function isDirty(fieldName:String = null ):Boolean
 		{
 			var dirty:Boolean = false;
-			var reflectedModel:ReflectedModel = Supply().modelsManager.reflectModelInstance(_model);
+			var reflectedModel:ReflectedModel = Supply().modelsManager.reflect(_model);
 			var fieldHandler:IModelField;
 			var field:ReflectedField;
 			var syncValue:*;
@@ -127,7 +127,7 @@ package supply.core {
 		 */
 		public function getSerializedValue( fieldName:String ):*
 		{
-			var reflectedModel:ReflectedModel = Supply().modelsManager.reflectModelInstance(_model);
+			var reflectedModel:ReflectedModel = Supply().modelsManager.reflect(_model);
 			var field:ReflectedField = reflectedModel.getField(fieldName);
 			
 			var fieldHandler:IModelField = reflectedModel.getFieldHandler(fieldName);
@@ -181,7 +181,7 @@ package supply.core {
 			var deserializedValue:*;
 			var serializedValue:*;
 			
-			var reflectedModel:ReflectedModel = Supply().modelsManager.reflectModelInstance(_model);
+			var reflectedModel:ReflectedModel = Supply().modelsManager.reflect(_model);
 			var field:ReflectedField;
 			var fieldType:String;
 			

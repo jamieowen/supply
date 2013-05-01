@@ -5,7 +5,7 @@ package supply.core.reflect
 	public class ReflectedModel
 	{
 		private var _fields:Vector.<ReflectedField>;
-		private var _storageClass:Class;
+		private var _storageConfig:Object;
 		private var _model:Class;
 		private var _fieldNames:Array; // a simple look up for just field names.
 		private var _fieldNamesToFieldHandler:Object; // a lookup for a fieldname to its IModelField handler.
@@ -36,9 +36,9 @@ package supply.core.reflect
 			return _fields;
 		}
 			
-		public function get storageClass():Class
+		public function get storageConfig():Object
 		{
-			return _storageClass;
+			return _storageConfig;
 		}
 			
 		public function ReflectedModel(model:Class, fields:Vector.<ReflectedField>)

@@ -1,4 +1,6 @@
 package supply.core {
+	import supply.storage.FileStorage;
+	import supply.api.IModel;
 	import supply.fields.DateField;
 	import supply.api.IModelField;
 	import supply.core.ns.supply_internal;
@@ -22,9 +24,9 @@ package supply.core {
 		// >> SINGLETON ACCESS
 		// ---------------------------------------------------------------	
 			
-		private static var _instance:SupplyMain;
+		supply_internal static var _instance:SupplyMain;
 		
-		public static function getInstance():SupplyMain
+		supply_internal static function getInstance():SupplyMain
 		{
 			if( !_instance ){
 				_instance = new SupplyMain();
@@ -44,7 +46,8 @@ package supply.core {
 		private var _onSynced:ISignal;
 		
 		private var _fieldsManager:FieldsManager;
-		private var _modelsManager:ModelsManager;		
+		private var _modelsManager:ModelsManager;
+		private var _storageManager:StorageManager;	
 		
 		// ---------------------------------------------------------------
 		// >> PUBLIC GETTERS
@@ -86,10 +89,7 @@ package supply.core {
 								
 		public function SupplyMain()
 		{
-			_fieldsManager = new FieldsManager();
-			_modelsManager = new ModelsManager();
 			
-			registerFields( BooleanField, intField, uintField, NumberField, StringField, XMLField, DateField, ArrayField, VectorField );
 		}
 		
 		// ---------------------------------------------------------------
@@ -108,14 +108,45 @@ package supply.core {
 		
 		supply_internal function get fieldsManager() : FieldsManager
 		{
+			if( _fieldsManager == null ){
+				_fieldsManager = new FieldsManager();
+				_fieldsManager.registerFields( BooleanField, intField, uintField, NumberField, StringField, XMLField, DateField, ArrayField, VectorField );
+			}
 			return _fieldsManager;
 		}
 	
 		supply_internal function get modelsManager() : ModelsManager
 		{
+			if( _modelsManager == null ){
+				_modelsManager = new ModelsManager();
+			}
 			return _modelsManager;
 		}
 		
+		supply_internal function get storageManager() : StorageManager
+		{
+			if( _storageManager == null ){
+				_storageManager = new StorageManager();
+				_storageManager.registerStorages( FileStorage );
+			}
+			return _storageManager;
+		}		
+		
+		supply_internal function save(model:IModel) : void
+		{
+			trace( "SAVE : " + model );
+		}
+		
+		supply_internal function del(model:IModel) : void
+		{
+			
+		}
+
+		supply_internal function sync(model:IModel) : void
+		{
+			
+		}
+				
 		supply_internal function warn(message:*) : void
 		{
 			trace( "(Supply) warn : " + message );
@@ -130,14 +161,10 @@ package supply.core {
 			return fieldsManager.registerFields.apply( _fieldsManager, fields );
 		}
 		
-		public function registerField( field:IModelField ):Boolean
-		{
-			return fieldsManager.registerField(field);
-		}
 		
-		public function registerStorage( ...storage ):void
+		public function registerStorage( ...storage ):Boolean
 		{
-						
+			return storageManager.registerStorages.apply( _storageManager, storage );		
 		}
 		
 		/**public function get query():Query

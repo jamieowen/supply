@@ -1,4 +1,5 @@
 package runners {
+	import suites.StorageSuite;
 	import suites.ModelsSuite;
 
 	import org.flexunit.internals.TraceListener;
@@ -10,7 +11,7 @@ package runners {
 	 * @author jamieowen
 	 */
 	
-	[SWF(frameRate=60,width=1280,height=1024)]
+	[SWF(frameRate=60,width=512,height=512)]
 	public class SupplyTestRunner extends Sprite {
 		private var core : FlexUnitCore;
 
@@ -34,7 +35,8 @@ package runners {
 			//var request:Request = Request.methods( someClass, ["method1", "method2", "method3"] ).sortWith( someSorter ).filterWith( someFilter );
 			//core.run( request );
 			
-			core.run(ModelsSuite);
+			core.run(StorageSuite);
+			//core.run(ModelsSuite);
 			//core.run(CoreTestSuite,ModelTestSuite, QueryTestSuite,SerializationTestSuite);
 		}
 	}

@@ -105,7 +105,7 @@ package supply.core {
 
 		}
 		
-		public function reflectModelInstance(model:IModel) : ReflectedModel
+		public function reflect(model:IModel) : ReflectedModel
 		{
 			const cls:Class = getDefinitionByName( getQualifiedClassName(model) ) as Class;
 			return reflectModelClass(cls);
