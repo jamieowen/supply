@@ -70,6 +70,11 @@ package supply {
 			return _cuid;
 		}
 		
+		public function set cuid(cuid:String):void
+		{
+			_cuid = cuid;
+		}
+		
 		// ---------------------------------------------------------------
 		// >> CONSTRUCTOR
 		// ---------------------------------------------------------------	

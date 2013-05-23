@@ -1,6 +1,6 @@
 package supply.queries {
 	import supply.api.IQuery;
-	import supply.api.IQueryValues;
+	//import supply.api.IQueryValues;
 	import supply.api.IStorage;
 	import supply.core.ns.supply_internal;
 	import supply.queries.matchers.IMatcher;
@@ -50,7 +50,7 @@ package supply.queries {
 			}
 		}**/
 
-		public function filter(...properties ) : IQueryValues {
+		/**public function filter(...properties ) : IQueryValues {
 			// matchers are appended to this Query by the IQueryValues object
 			var matchers:Vector.<IMatcher> = parsePropertiesToMatchers.apply(this,properties);
 			var values:QueryValues = new QueryValues(this,matchers);
@@ -106,6 +106,6 @@ package supply.queries {
 		{
 			_matches = null;
 			_model 	 = null;
-		}
+		}**/
 	}
 }

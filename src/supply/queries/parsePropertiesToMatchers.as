@@ -3,7 +3,6 @@ package supply.queries {
 	import supply.queries.matchers.MatchPropertyLessThan;
 	import supply.queries.matchers.MatchPropertyEquals;
 	import supply.queries.matchers.IMatcher;
-	import supply.errors.QueryError;
 	
 	/**
 	 * @author jamieowen
@@ -31,7 +30,7 @@ package supply.queries {
 				
 				matchers.push(matcher);
 			}else{
-				throw new QueryError("Problem with query. Properties must all be of type String." );
+				throw new Error("Problem with query. Properties must all be of type String." );
 			}
 		}
 		

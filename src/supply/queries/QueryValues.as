@@ -1,24 +1,19 @@
-package supply.queries
-{
-	import supply.errors.QueryError;
+package supply.queries {
+	import supply.api.IQuery;
 	import supply.queries.matchers.IMatcher;
 	import supply.queries.matchers.MatchAllOf;
 	import supply.queries.matchers.MatchAnyOf;
 	import supply.queries.matchers.MatchNot;
-	import supply.api.IQuery;
-	import supply.api.IQueryValues;
 	import supply.queries.matchers.MatchPropertyBase;
-
-	import supply.core.supply_internals;
 	
-	use namespace supply_internals;
+	//use namespace supply_internals;
 	
 	/**
 	 * Enables the filter().values() syntax with queries.
 	 * Captures the values and 
 	 * @author jamieowen
 	 */
-	public class QueryValues implements IQueryValues
+	public class QueryValues //implements IQueryValues
 	{
 		private var _query:Query;
 		private var _matchers:Vector.<IMatcher>; // the property matchers on the filter() or exlclude() methods
@@ -71,8 +66,9 @@ package supply.queries
 					matcher = _matchers[i] as MatchPropertyBase;
 					if( matcher ){
 						( matcher as MatchPropertyBase ).value = values[i];
-					}else
-						throw new QueryError("Query values can only operate with MatchPropertyBase objects.");
+					}else{
+						//throw new QueryError("Query values can only operate with MatchPropertyBase objects.");
+					}
 				}
 				
 				// append to query set below.
@@ -87,8 +83,9 @@ package supply.queries
 					matcher = _matchers[i] as MatchPropertyBase;
 					if( matcher ){
 						( matcher as MatchPropertyBase ).value = values[0];
-					}else
-						throw new QueryError("Query values can only operate with MatchPropertyBase objects.");
+					}else{
+						//throw new QueryError("Query values can only operate with MatchPropertyBase objects.");
+					}
 				}
 				
 				// append to query set below.
@@ -110,19 +107,19 @@ package supply.queries
 						( matcher as MatchPropertyBase ).value = values[i];
 					}
 				}else
-					throw new QueryError("Query values can only operate with MatchPropertyBase objects.");
+					//throw new QueryError("Query values can only operate with MatchPropertyBase objects.");
 				
 				// append to query set below.
 				matcher = new MatchAnyOf(_matchers);
 				
 			}else
-				throw new QueryError("Wrong number of Query arguments specified." );
+				//throw new QueryError("Wrong number of Query arguments specified." );
 			
 			// append the matcher to the query.
 			if( _notWrapper ){
-				_query.appendMatch( new MatchNot( matcher ) );
+				//_query.appendMatch( new MatchNot( matcher ) );
 			}else					
-				_query.appendMatch( matcher );
+				//_query.appendMatch( matcher );
 			
 			return _query;
 		}

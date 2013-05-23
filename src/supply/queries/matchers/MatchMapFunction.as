@@ -1,6 +1,4 @@
 package supply.queries.matchers {
-	import supply.errors.QueryError;
-	import supply.queries.matchers.IMatcher;
 	import supply.api.IModel;
 
 	/**
@@ -20,7 +18,7 @@ package supply.queries.matchers {
 			try{
 				return _func( object );
 			}catch( e:Error ){
-				throw new QueryError("There was an error with the supplied mapping function." );
+				throw new Error("There was an error with the supplied mapping function." );
 			}
 			
 			return false;

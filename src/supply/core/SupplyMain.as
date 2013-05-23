@@ -1,4 +1,5 @@
 package supply.core {
+	import supply.api.IStorage;
 	import org.osflash.signals.ISignal;
 	import supply.api.IModel;
 	import supply.api.IModelField;
@@ -137,7 +138,8 @@ package supply.core {
 		
 		supply_internal function save(model:IModel) : void
 		{
-			trace( "SAVE : " + model );
+			var storage:IStorage = storageManager.getStorage(model);
+			storage.save(model);
 		}
 		
 		supply_internal function del(model:IModel) : void

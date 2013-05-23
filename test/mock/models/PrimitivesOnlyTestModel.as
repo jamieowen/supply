@@ -1,7 +1,7 @@
 package mock.models {
 	import supply.Model;
 
-	[Supply( storage="file", serialization="json", async=true, cache=true )]
+	[Supply( storage="file", serialization="json", async=false, cache=false )]
 	public class PrimitivesOnlyTestModel extends Model
 	{
 		private static function getUnicode():String

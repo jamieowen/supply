@@ -24,6 +24,23 @@ package supply.core.managers {
 			
 		}
 		
+		private function parseArg( arg:String ):*
+		{
+			if( arg.toLowerCase() == "true" ){
+				return true;
+			}else if( arg.toLowerCase() == "false" ){
+				return false;
+			}else
+			{
+				var float:Number = parseFloat(arg);
+				if( !isNaN(float) ){
+					return float;
+				}else{
+					return arg;	
+				}
+			}
+		}
+		
 		public function reflectModelClass(model:Class) : ReflectedModel
 		{
 			if( _reflectModelCache == null ){
@@ -58,6 +75,16 @@ package supply.core.managers {
 				var arg:XML;
 				var readonly:Boolean;
 				var store:Boolean;
+				var storageConfig:Object = {};
+				
+				// storage metadata
+				metadata = type.factory.children().( name() == "metadata" ).(@name=="Supply");
+				if( metadata.length() == 1)
+				{
+					for each( arg in metadata.arg ){
+						storageConfig[arg.@key] = parseArg( arg.@value.toString() );
+					}
+				}
 				
 				for each( element in elements )
 				{
@@ -97,7 +124,7 @@ package supply.core.managers {
 					fields.push( field );
 				}
 				
-				reflectedModel = new ReflectedModel(model, fields);
+				reflectedModel = new ReflectedModel(model, fields, storageConfig);
 				_reflectModelCache[model] = reflectedModel;	
 				return reflectedModel;				
 			}
