@@ -258,7 +258,8 @@
 					return;
 				}
 				var serialized:* = serializer.serialize(_data);
-				trace( "Writing Data : " + serialized );
+				trace( "Writing Data : " + serialized + " " );
+				trace( "To path : " + File.applicationStorageDirectory.nativePath );
 				var write:File = File.applicationStorageDirectory.resolvePath(file);
 				var stream:FileStream = new FileStream();
 				stream.open(write, FileMode.WRITE);

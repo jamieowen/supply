@@ -1,5 +1,4 @@
 package supply.fields {
-	import supply.api.IModel;
 	import supply.api.IModelField;
 
 	/**

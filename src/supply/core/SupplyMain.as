@@ -1,8 +1,9 @@
 package supply.core {
-	import supply.api.IStorage;
-	import org.osflash.signals.ISignal;
+	import supply.queries.Collection;
+	import supply.api.ICollection;
+	import supply.queries.Query;
 	import supply.api.IModel;
-	import supply.api.IModelField;
+	import supply.api.IStorage;
 	import supply.core.managers.FieldsManager;
 	import supply.core.managers.ModelsManager;
 	import supply.core.managers.StorageManager;
@@ -17,6 +18,8 @@ package supply.core {
 	import supply.fields.intField;
 	import supply.fields.uintField;
 	import supply.storage.FileStorage;
+
+	import org.osflash.signals.ISignal;
 
 	
 	use namespace supply_internal;
@@ -97,6 +100,15 @@ package supply.core {
 		}
 		
 		// ---------------------------------------------------------------
+		// >> FACTORY METHODS
+		// ---------------------------------------------------------------			
+		private function defaultCollectionFactory(query:Query):ICollection
+		{
+			return new Collection(query);
+		}
+		
+		
+		// ---------------------------------------------------------------
 		// >> SUPPLY INTERNAL METHODS
 		// ---------------------------------------------------------------		
 		
@@ -151,11 +163,45 @@ package supply.core {
 		{
 			
 		}
+		
+		/**
+		 * Creates a new query object on the specfied model.
+		 */
+		supply_internal function query( model:IModel ):Query
+		{			
+			return new Query(null, null);
+		}
+		
+		/**
+		 * Executes a query on the specified model storage.
+		 */
+		supply_internal function executeQuery( storage:String, query:Query, collection:ICollection = null ):ICollection
+		{			
+			if( collection == null ){
+				collection = defaultCollectionFactory(query);
+			}
+			
+			return collection;
+		}
+		
+		// ---------------------------------------------------------------
+		// >> LOG METHODS.
+		// ---------------------------------------------------------------
 				
 		supply_internal function warn(message:*) : void
 		{
 			trace( "(Supply) warn : " + message );
-		}		
+		}
+		
+		supply_internal function log(message:*) : void
+		{
+			trace( "(Supply) log : " + message );
+		}
+		
+		supply_internal function debug(message:*) : void
+		{
+			trace( "(Supply) warn : " + message );
+		}
 		
 		// ---------------------------------------------------------------
 		// >> PUBLIC METHODS
@@ -172,9 +218,6 @@ package supply.core {
 			return storageManager.registerStorages.apply( _storageManager, storage );		
 		}
 		
-		/**public function get query():Query
-		{			
-			return null;
-		}**/
+
 	}
 }
