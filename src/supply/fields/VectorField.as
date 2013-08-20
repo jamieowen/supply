@@ -1,11 +1,10 @@
 package supply.fields {
+	import supply.Supply;
+	import supply.api.IModelField;
+	import supply.core.ns.supply_internal;
+
 	import flash.utils.getDefinitionByName;
 	import flash.utils.getQualifiedClassName;
-	import supply.Supply;
-	import supply.api.IModel;
-	import supply.api.IModelField;
-	
-	import supply.core.ns.supply_internal;
 	
 	use namespace supply_internal;
 	
@@ -26,7 +25,7 @@ package supply.fields {
 		public function handlesType(type:String) : Boolean
 		{
 			var vectorType:String = getVectorTypeString(type);
-			var field:IModelField = Supply().fieldsManager.getFieldForType(vectorType);
+			var field:IModelField = Supply.fieldsManager.getFieldForType(vectorType);
 			if( field ){
 				return true;
 			}else{
@@ -37,7 +36,7 @@ package supply.fields {
 		public function toObject(value:*, type:String) : *
 		{
 			var vectorType:String = getVectorTypeString(type);
-			var handler:IModelField = Supply().fieldsManager.getFieldForType(vectorType);
+			var handler:IModelField = Supply.fieldsManager.getFieldForType(vectorType);
 			
 			if( handler )
 			{
@@ -53,7 +52,7 @@ package supply.fields {
 				}
 				return serialized; 	
 			}else{
-				Supply().warn("An objects type found in a Vector when serializing is not supported. Type : " + type );
+				Supply.warn("An objects type found in a Vector when serializing is not supported. Type : " + type );
 				return null;
 			}
 		}
@@ -61,7 +60,7 @@ package supply.fields {
 		public function fromObject(value:*, type:String) : *
 		{
 			var vectorType:String = getVectorTypeString(type);
-			var handler:IModelField = Supply().fieldsManager.getFieldForType(vectorType);
+			var handler:IModelField = Supply.fieldsManager.getFieldForType(vectorType);
 			
 			// Vectors are saved as arrays, but we can cast to the correct
 			// type by using the Vectors Field handler.
@@ -90,7 +89,7 @@ package supply.fields {
 		{
 			if( obj1 is Array && obj2 is Array ){
 				var vectorType:String = getVectorTypeString(type);
-				var handler:IModelField = Supply().fieldsManager.getFieldForType(vectorType);
+				var handler:IModelField = Supply.fieldsManager.getFieldForType(vectorType);
 							
 				var a1:Array = obj1;
 				var a2:Array = obj2;

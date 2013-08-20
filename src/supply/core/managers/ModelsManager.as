@@ -117,9 +117,9 @@ package supply.core.managers {
 					field = new ReflectedField();
 					field.name = element.@name;
 					field.type = element.@type;
-					field.fieldHandler = Supply().fieldsManager.getFieldForType(field.type);
+					field.fieldHandler = Supply.fieldsManager.getFieldForType(field.type);
 					if( field.fieldHandler == null ){
-						Supply().warn( "No IModelField Handler for type : " + field.type );
+						Supply.warn( "No IModelField Handler for type : " + field.type );
 					}
 					fields.push( field );
 				}

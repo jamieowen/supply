@@ -46,7 +46,7 @@
 		{
 			if( _serializers[ serializer.name ] )
 			{
-				Supply().warn( "A Serializer with the name '" + name + "' is already registered."); 
+				Supply.warn( "A Serializer with the name '" + name + "' is already registered."); 
 				return false;
 			}else{
 				_serializers[ serializer.name ] = serializer;
@@ -60,7 +60,7 @@
 			if( serializer ){	
 				return serializer;
 			}else{
-				Supply().warn( "A Serializer with the name '" + name + "' does not exist.");
+				Supply.warn( "A Serializer with the name '" + name + "' does not exist.");
 				return null;
 			}
 		}
@@ -254,7 +254,7 @@
 					return;
 				}
 				if( _data == null ){
-					Supply().warn( "(FileStorage) No data to be written."); 
+					Supply.warn( "(FileStorage) No data to be written."); 
 					return;
 				}
 				var serialized:* = serializer.serialize(_data);

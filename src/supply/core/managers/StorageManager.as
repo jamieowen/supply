@@ -36,14 +36,14 @@ package supply.core.managers
 				}
 				
 				if( _storageTypes[name] ){
-					Supply().warn( "A storage with the name '" + name + "' is already registered. Use a different name." );
+					Supply.warn( "A storage with the name '" + name + "' is already registered. Use a different name." );
 					return false;
 				}else{
 					_storageTypes[name] = storage;
 					return true;
 				}
 			}else{
-				Supply().warn( "Specify a static 'name' property on custom storage classes." );
+				Supply.warn( "Specify a static 'name' property on custom storage classes." );
 				return false;
 			}
 		}
@@ -80,14 +80,14 @@ package supply.core.managers
 				return storage;
 			}else
 			{
-				Supply().warn( "A Storage class with the name '" + name + "' does not exist." );
+				Supply.warn( "A Storage class with the name '" + name + "' does not exist." );
 				return null;
 			}
 		}
 		
 		public function getStorage( model:IModel ):IStorage
 		{
-			var reflected:ReflectedModel = Supply().modelsManager.reflect(model);
+			var reflected:ReflectedModel = Supply.modelsManager.reflect(model);
 			
 			if( _storageInstances == null ){
 				_storageInstances = new Dictionary();

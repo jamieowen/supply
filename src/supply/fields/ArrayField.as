@@ -39,12 +39,12 @@ package supply.fields {
 				for( i = 0; i<array.length; i++ ){
 					item = array[i];
 					arrayItemType = getQualifiedClassName(item);
-					handler = Supply().fieldsManager.getFieldForType(arrayItemType);
+					handler = Supply.fieldsManager.getFieldForType(arrayItemType);
 					if( handler ){
 						serializedObj = {type:arrayItemType, value:handler.toObject(array[i], arrayItemType)};
 						serialized.push( serializedObj );
 					}else{
-						Supply().warn("An objects type found in an Array when serializing is not supported. Type : " + type );
+						Supply.warn("An objects type found in an Array when serializing is not supported. Type : " + type );
 						return serialized.push( null );
 					}
 				}
@@ -64,7 +64,7 @@ package supply.fields {
 				for( var i:int = 0; i<array.length;i++ )
 				{
 					item = array[i];
-					handler = Supply().fieldsManager.getFieldForType(item.type);
+					handler = Supply.fieldsManager.getFieldForType(item.type);
 					results.push( handler.fromObject(item.value, item.type) );	
 				}
 				return results;
@@ -85,7 +85,7 @@ package supply.fields {
 				for( var i:int = 0; i<a1.length && equal; i++ )
 				{
 					itemType = a1[i]["type"];
-					handler = Supply().fieldsManager.getFieldForType(itemType);
+					handler = Supply.fieldsManager.getFieldForType(itemType);
 					equal = equal && handler.isEqual(a1[i], a2[i], itemType );
 				}
 				

@@ -90,17 +90,17 @@ package supply {
 				
 		public function save() : void
 		{
-			Supply().save(this);
+			Supply.save(this);
 		}
 
 		public function del() : void
 		{
-			Supply().del(this);
+			Supply.del(this);
 		}
 		
 		public function sync():void
 		{
-			Supply().sync(this);
+			Supply.sync(this);
 		}
 		
 		// ---------------------------------------------------------------
