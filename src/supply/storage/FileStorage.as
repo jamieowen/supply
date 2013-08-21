@@ -130,6 +130,7 @@
 		{
 			var action:Function = function( data:Object, next:Function, model:IModel ):void
 			{
+				// TODO : This is not necessary - as the cuid can only be set internally.
 				var obj:Object;
 				// check for existence of model already.
 				var found:int = -1;

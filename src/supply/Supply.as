@@ -1,4 +1,5 @@
 package supply {
+	import supply.core.reflect.ReflectedModel;
 	import supply.queries.Collection;
 	import supply.api.ICollection;
 	import supply.queries.Query;
@@ -229,7 +230,7 @@ package supply {
 		 */
 		public function save(model:IModel) : void
 		{
-			var storage:IStorage = storageManager.getStorage(model);
+			const storage:IStorage = storageManager.getStorageByInstance(model);
 			storage.save(model);
 		}
 		
@@ -238,7 +239,8 @@ package supply {
 		 */
 		public function del(model:IModel) : void
 		{
-			
+			const storage:IStorage = storageManager.getStorageByInstance(model);
+			storage.del(model);
 		}
 		
 		/**
@@ -246,15 +248,17 @@ package supply {
 		 */
 		public function sync(model:IModel) : void
 		{
-			
+			const storage:IStorage = storageManager.getStorageByInstance(model);
+			storage.sync(model);		
 		}
 		
 		/**
 		 * Starts a Storage Query on the Model specified.
 		 */
-		public function query( modelClass:Class ):Query
+		public function query( model:Class ):Query
 		{			
-			return new Query(null, null);
+			const storage:IStorage = storageManager.getStorageByClass(model);
+			return new Query(storage.name, null);
 		}
 		
 		/**

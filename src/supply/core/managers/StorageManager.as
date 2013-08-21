@@ -67,16 +67,27 @@ package supply.core.managers
 			return success;
 		}
 		
-		private function createStorageInstance(reflected:ReflectedModel):IStorage
+		private function getStorageByReflectedModel(reflected:ReflectedModel):IStorage
 		{
+			var storage:IStorage = _storageInstances[reflected]; 
+			if( storage ){
+				return storage;
+			}
+			
 			if( _storageTypes == null ){
 				_storageTypes = {};	
 			}
-			var name:String = reflected.storageConfig["storage"];			
-			var storageClass:Class = _storageTypes[name] as Class;
+			
+			if( _storageInstances == null ){
+				_storageInstances = new Dictionary();
+			}
+			
+			const name:String = reflected.storageConfig["storage"];			
+			const storageClass:Class = _storageTypes[name] as Class;
 			
 			if( storageClass ){
-				var storage:IStorage = new storageClass(reflected) as IStorage;
+				storage = new storageClass(reflected) as IStorage;
+				_storageInstances[reflected] = storage;	
 				return storage;
 			}else
 			{
@@ -85,21 +96,16 @@ package supply.core.managers
 			}
 		}
 		
-		public function getStorage( model:IModel ):IStorage
+		public function getStorageByInstance( model:IModel ):IStorage
 		{
-			var reflected:ReflectedModel = Supply.modelsManager.reflect(model);
-			
-			if( _storageInstances == null ){
-				_storageInstances = new Dictionary();
-			}
-			
-			var storage:IStorage = _storageInstances[reflected]; 
-			if( storage == null ){
-				storage = createStorageInstance( reflected );
-				_storageInstances[reflected] = storage;		
-			}
-			
-			return storage;
+			const reflected:ReflectedModel = Supply.modelsManager.reflect(model);
+			return getStorageByReflectedModel(reflected);
+		}
+		
+		public function getStorageByClass( model:Class ):IStorage
+		{
+			const reflected:ReflectedModel = Supply.modelsManager.reflectModelClass(model);
+			return getStorageByReflectedModel(reflected);
 		}
 	}
 }

@@ -136,7 +136,8 @@ package supply.core.managers {
 		{
 			const cls:Class = getDefinitionByName( getQualifiedClassName(model) ) as Class;
 			return reflectModelClass(cls);
-		}			
+		}
+		
 	}
 }
 
